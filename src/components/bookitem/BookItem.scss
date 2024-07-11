@@ -1,0 +1,76 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+@import '../../styles/padding-utils';
+@import '../../styles/margin-utils';
+@import '../../styles/border-utils';
+@import '../../styles/flex-utils';
+@import '../../styles/responsive-utils';
+@import '../../styles/text-utils';
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: white;
+  @include box-shadow(rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+  transition: transform 0.2s;
+  @extend .rounded-lg;
+  width: 100%;
+  max-width: 300px;
+  margin: 16px;
+  .ant-card-body {
+    padding: 24px 24px 0 24px;
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .book-cover-wrapper {
+    text-align: center;
+    background-size: cover;
+    overflow: hidden;
+    align-items: center;
+    height: 200px;
+    
+    .book-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .book-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+
+  .book-author {
+    font-size: 1rem;
+    color: $color-dark-brown;
+  }
+
+  .action-bar {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    
+    button {
+      margin-right: $spacing-small;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .book-item {
+    max-width: 100%;
+  }
+}

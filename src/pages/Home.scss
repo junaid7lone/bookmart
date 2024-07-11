@@ -1,0 +1,28 @@
+@import '../styles/variables';
+@import '../styles/mixins';
+@import '../styles/padding-utils';
+@import '../styles/margin-utils';
+@import '../styles/border-utils';
+@import '../styles/flex-utils';
+@import '../styles/responsive-utils';
+@import '../styles/text-utils';
+
+.home-page {
+  padding: $spacing-large;
+
+  h2 {
+    margin-bottom: $spacing-medium;
+  }
+
+  .books-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-medium;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacing-large;
+  }
+}

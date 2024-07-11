@@ -1,0 +1,16 @@
+@import '../styles/border-utils';
+@import '../styles/margin-utils.scss';
+
+
+.create-book-page {
+  padding: 24px 16px;
+  background-color: #fff;
+  @extend .rounded-lg;
+  @extend .mb-lg;
+
+  
+  h2 {
+    margin:0 0 24px 0;
+    // text-ign: center;
+  }
+}
