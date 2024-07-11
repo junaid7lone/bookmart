@@ -4,12 +4,21 @@ import { Spin, Alert, Pagination } from 'antd';
 import BookItem from '../components/bookitem/BookItem';
 import { usePagination } from '../hooks/usePagination';
 import './Favorites.scss';
+import BookDetails from '../components/book/BookDetails';
 
 const Favorites: React.FC = () => {
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const [favorites, setFavorites] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+
   const booksPerPage = 5;
+
+  const handleViewBook = (book: Book) => {
+    setSelectedBook(book);
+    setIsDrawerVisible(true);
+  };
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -36,7 +45,11 @@ const Favorites: React.FC = () => {
   } = usePagination(favorites, booksPerPage);
 
   if (loading) {
-    return <Spin size="large" />;
+    return (
+      <div className="flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   if (error) {
@@ -48,7 +61,11 @@ const Favorites: React.FC = () => {
       <h2>Favorites</h2>
       <div className="books-container">
         {currentFavorites.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <BookItem
+            key={book.id}
+            book={book}
+            onView={() => handleViewBook(book)}
+          />
         ))}
       </div>
       <Pagination
@@ -57,6 +74,11 @@ const Favorites: React.FC = () => {
         total={totalItems}
         onChange={setCurrentPage}
         className="pagination"
+      />
+      <BookDetails
+        book={selectedBook}
+        visible={isDrawerVisible}
+        onClose={() => setIsDrawerVisible(false)}
       />
     </div>
   );

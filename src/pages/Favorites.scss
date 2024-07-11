@@ -1,11 +1,4 @@
 @import '../styles/variables';
-@import '../styles/mixins';
-@import '../styles/padding-utils';
-@import '../styles/margin-utils';
-@import '../styles/border-utils';
-@import '../styles/flex-utils';
-@import '../styles/responsive-utils';
-@import '../styles/text-utils';
 
 .favorites-page {
   padding: $spacing-large;
@@ -16,8 +9,8 @@
 
   .books-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: $spacing-medium;
+    flex-flow: row wrap;
+    justify-content: flex-start;
   }
 
   .pagination {

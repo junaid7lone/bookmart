@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { HomeOutlined, HeartOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Logo from '../../assets/logo-full.png';
@@ -7,25 +7,36 @@ import './Sidebar.scss';
 
 const { Sider } = Layout;
 
-const items = [
+const menuItems = [
   {
     key: '1',
     icon: <HomeOutlined />,
     label: <Link to="/">Home</Link>,
+    name: '/',
   },
   {
     key: '2',
     icon: <HeartOutlined />,
     label: <Link to="/favorites">Favorites</Link>,
+    name: '/favorites',
   },
   {
     key: '3',
     icon: <PlusOutlined />,
     label: <Link to="/create">Add New Book</Link>,
+    name: '/create',
   },
 ];
 
 const Sidebar: React.FC = () => {
+  const location = useLocation();
+
+  const getSelectedKey = () => {
+    const currentPath = location.pathname;
+    const menuItem = menuItems.find((item) => item.name === currentPath);
+    return menuItem ? menuItem.key : '1';
+  };
+
   return (
     <Sider
       theme="light"
@@ -46,8 +57,8 @@ const Sidebar: React.FC = () => {
       <Menu
         theme="light"
         mode="inline"
-        defaultSelectedKeys={['1']}
-        items={items}
+        selectedKeys={[getSelectedKey()]}
+        items={menuItems}
       />
     </Sider>
   );

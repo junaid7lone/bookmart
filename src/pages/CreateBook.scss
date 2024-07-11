@@ -1,16 +1,23 @@
 @import '../styles/border-utils';
 @import '../styles/margin-utils.scss';
+@import '../styles/mixins';
+
 
 
 .create-book-page {
   padding: 24px 16px;
-  background-color: #fff;
   @extend .rounded-lg;
-  @extend .mb-lg;
-
-  
+    
   h2 {
     margin:0 0 24px 0;
-    // text-ign: center;
   }
+
+  .ant-card{
+    max-width: 600px;
+    @include box-shadow(rgba(0, 0, 0, 0.1));
+
+  }
+
+
+
 }

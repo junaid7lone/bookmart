@@ -7,20 +7,29 @@
 @import '../../styles/responsive-utils';
 @import '../../styles/text-utils';
 
+.grid-item{
+  flex-basis: 20%;
+  -ms-flex: auto;
+  min-width: 33%;
+  position: relative;
+  padding: 10px;
+  box-sizing: border-box;
+  
+
+}
+
 .book-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: white;
   @include box-shadow(rgba(0, 0, 0, 0.1));
   overflow: hidden;
   transition: transform 0.2s;
-  @extend .rounded-lg;
   width: 100%;
-  max-width: 300px;
-  margin: 16px;
+  // max-width: 300px;
+
   .ant-card-body {
-    padding: 24px 24px 0 24px;
+    padding: 24px 0 0 0 ;
   }
   
   &:hover {
@@ -47,8 +56,15 @@
   }
 
   .book-author {
+    padding-bottom: 20px;
+    display: block;
     font-size: 1rem;
     color: $color-dark-brown;
+  }
+
+  .date {
+    color : #999;
+    font-size: small;
   }
 
   .action-bar {
@@ -68,9 +84,30 @@
   }
 }
 
-// Responsive adjustments
-@media (max-width: 600px) {
-  .book-item {
-    max-width: 100%;
+@media(max-width: 1333px) {
+  .grid-item {
+    flex-basis: 33.33%;
+  }
+}
+
+@media(max-width: 1073px) {
+   .grid-item {
+    flex-basis: 33.33%;
+  }
+}
+
+@media(max-width: 815px) {
+  .grid-item {
+    flex-basis: 50%;
+  }
+}
+
+
+@media(max-width: 555px) {
+  .grid-item {
+    flex-basis: 100%;
+    .book-item{
+      min-width: 100%;
+    }
   }
 }

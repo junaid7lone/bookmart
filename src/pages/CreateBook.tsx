@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Book } from '../types/book';
-import { Layout } from 'antd';
-import './CreateBook.scss';
 import BookForm from '../components/book/BookForm';
+import { Card, Layout, notification } from 'antd';
+import './CreateBook.scss';
 
 const { Content } = Layout;
 
@@ -18,14 +18,23 @@ const CreateBook: React.FC = () => {
     const updatedBooks = [...localBooks, book];
     setLocalBooks(updatedBooks);
     localStorage.setItem('localBooks', JSON.stringify(updatedBooks));
+    notification.success({
+      message: `Success`,
+      description: 'Book added to collection.',
+      placement: 'bottomRight',
+    });
     navigate('/');
   };
 
   return (
-    <section className="create-book-page">
+    <Content style={{ margin: '24px 16px 0' }} className="create-book-page">
       <h2>Add New Book</h2>
-      <BookForm onSubmit={handleFormSubmit} />
-    </section>
+      <article className="">
+        <Card>
+          <BookForm onSubmit={handleFormSubmit} />
+        </Card>
+      </article>
+    </Content>
   );
 };
 

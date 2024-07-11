@@ -16,13 +16,20 @@
 
   .books-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: $spacing-medium;
+    flex-flow: row wrap;
+    justify-content: flex-start;
   }
 
   .pagination {
     display: flex;
     justify-content: center;
     margin-top: $spacing-large;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 600px) {
+  .home-page {
+    padding: 0;
   }
 }

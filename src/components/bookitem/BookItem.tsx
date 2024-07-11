@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Book } from '../../types/book';
-import { Card, Button, Image } from 'antd';
-import { HeartOutlined, HeartFilled, MessageOutlined } from '@ant-design/icons';
-import './Bookitem.scss';
+import { Card, Button, Image, Tooltip } from 'antd';
+import {
+  HeartOutlined,
+  HeartFilled,
+  MessageOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+} from '@ant-design/icons';
+import './BookItem.scss';
 import Placeholder from '../../assets/placeholder.png';
 
 const { Meta } = Card;
 
 interface BookItemProps {
   book: Book;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onView: () => void;
 }
 
-const BookItem: React.FC<BookItemProps> = ({ book }) => {
+const BookItem: React.FC<BookItemProps> = ({
+  book,
+  onEdit,
+  onDelete,
+  onView,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -42,34 +57,67 @@ const BookItem: React.FC<BookItemProps> = ({ book }) => {
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
-  return (
-    <Card
-      className="book-item"
-      cover={
-        <div className="book-cover-wrapper">
-          <Image
-            className="book-image"
-            src={book.cover}
-            alt={book.title}
-            preview={false}
-            fallback={Placeholder}
-          />
-        </div>
-      }
-      actions={[
-        <Button
-          shape="circle"
-          icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
-          onClick={toggleFavorite}
-        />,
-        <Button shape="circle" icon={<MessageOutlined />} />,
-      ]}
-    >
-      <Meta
-        title={<span className="book-title">{book.title}</span>}
-        description={<span className="book-author">{book.author}</span>}
+  const actions = [
+    <Tooltip title="Add to Favorites">
+      <Button
+        shape="circle"
+        icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
+        onClick={toggleFavorite}
       />
-    </Card>
+    </Tooltip>,
+    <Tooltip title="View Details">
+      <Button shape="circle" icon={<EyeOutlined />} onClick={onView} />,
+    </Tooltip>,
+    <Button shape="circle" icon={<MessageOutlined />} />,
+  ];
+
+  if (onEdit) {
+    actions.push(
+      <Tooltip title="Edit Book">
+        <Button shape="circle" icon={<EditOutlined />} onClick={onEdit} />
+      </Tooltip>
+    );
+  }
+  if (onDelete) {
+    actions.push(
+      <Tooltip title="Delete Book">
+        <Button shape="circle" icon={<DeleteOutlined />} onClick={onDelete} />
+      </Tooltip>
+    );
+  }
+
+  return (
+    <article className="grid-item">
+      <Card
+        className="book-item"
+        cover={
+          <div className="book-cover-wrapper">
+            <Image
+              className="book-image"
+              src={book.cover}
+              alt={book.title}
+              preview={false}
+              fallback={Placeholder}
+            />
+          </div>
+        }
+        actions={actions}
+      >
+        <Meta
+          title={<span className="book-title">{book.title}</span>}
+          description={
+            <div className="book-author">
+              {book.author}{' '}
+              {book?.publicationDate && (
+                <div className="date">
+                  {new Date(book.publicationDate).toDateString()}
+                </div>
+              )}
+            </div>
+          }
+        />
+      </Card>
+    </article>
   );
 };
 

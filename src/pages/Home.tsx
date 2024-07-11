@@ -1,66 +1,133 @@
-// src/pages/Home.tsx
-
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/store';
-import { Spin, Alert, Pagination, Button } from 'antd';
-import { fetchBooks } from '../store/bookSlice';
+import React, { useState } from 'react';
+import { Spin, Alert, Pagination, Button, Modal } from 'antd';
 import BookItem from '../components/bookitem/BookItem';
+import BookForm from '../components/book/BookForm';
+import BookDetails from '../components/book/BookDetails';
 import { Book } from '../types/book';
 import { Layout } from 'antd';
 import { usePagination } from '../hooks/usePagination';
+import useBooks from '../hooks/useBook';
 import './Home.scss';
 
 const { Content } = Layout;
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { books, status, error } = useSelector(
-    (state: RootState) => state.books
-  );
-  const [localBooks, setLocalBooks] = useState<Book[]>(() => {
-    const savedBooks = localStorage.getItem('localBooks');
-    return savedBooks ? JSON.parse(savedBooks) : [];
-  });
+  const { books, status, addBook, editBook, deleteBook } = useBooks();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
   const booksPerPage = 5;
-
-  useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchBooks());
-    }
-  }, [status, dispatch]);
-
-  const combinedBooks = [...localBooks, ...books];
 
   const {
     currentPage,
     paginatedItems: currentBooks,
     totalItems,
     setCurrentPage,
-  } = usePagination(combinedBooks, booksPerPage);
+  } = usePagination(books, booksPerPage);
+
+  const handleAddBook = () => {
+    setEditingBook(null);
+    setIsModalVisible(true);
+  };
+
+  const handleEditBook = (book: Book) => {
+    setEditingBook(book);
+    setIsModalVisible(true);
+  };
+
+  const handleViewBook = (book: Book) => {
+    setSelectedBook(book);
+    setIsDrawerVisible(true);
+  };
+
+  const handleFormSubmit = (book: Book) => {
+    if (editingBook) {
+      editBook(book);
+    } else {
+      addBook(book);
+    }
+    setIsModalVisible(false);
+  };
 
   if (status === 'loading') {
-    return <Spin size="large" />;
+    return (
+      <div className="flex items-center justify-center">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   if (status === 'failed') {
-    return <Alert message="Error" description={error} type="error" showIcon />;
+    return (
+      <Alert
+        message="Error"
+        description="Failed to load books"
+        type="error"
+        showIcon
+      />
+    );
   }
 
   return (
     <Content style={{ margin: '24px 16px 0' }} className="home-page">
+      <div className="flex justify-between">
+        <h2>Popular Books</h2>
+        <Button
+          type="primary"
+          onClick={handleAddBook}
+          style={{ marginBottom: '16px' }}
+        >
+          Add New Book
+        </Button>
+      </div>
+
       <div className="books-container">
         {currentBooks.map((book) => (
-          <BookItem key={book.id} book={book} />
+          <BookItem
+            key={book.id}
+            book={book}
+            onView={() => handleViewBook(book)}
+            onEdit={
+              book.id.toString().startsWith('local')
+                ? () => handleEditBook(book)
+                : undefined
+            }
+            onDelete={
+              book.id.toString().startsWith('local')
+                ? () => deleteBook(book.id)
+                : undefined
+            }
+          />
         ))}
       </div>
+
       <Pagination
         current={currentPage}
         pageSize={booksPerPage}
         total={totalItems}
         onChange={setCurrentPage}
         className="pagination"
+      />
+
+      <Modal
+        title="Add / Edit Book"
+        style={{ top: 20 }}
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={[]}
+      >
+        <BookForm
+          onSubmit={handleFormSubmit}
+          initialData={editingBook || undefined}
+        />
+      </Modal>
+
+      <BookDetails
+        book={selectedBook}
+        visible={isDrawerVisible}
+        onClose={() => setIsDrawerVisible(false)}
       />
     </Content>
   );
