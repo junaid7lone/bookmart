@@ -1,7 +1,9 @@
 import React from 'react';
-import { Input, Avatar, Layout } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Input, Avatar, Layout, Space, Tooltip } from 'antd';
+import { GithubFilled, UserOutlined } from '@ant-design/icons';
 import './Header.scss';
+import { Link } from 'react-router-dom';
+import LogoSmall from '../../assets/bookmark-icon.png';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -15,12 +17,31 @@ const AppHeader: React.FC = () => {
   return (
     <Header className="app-header">
       <div className="app-header-content">
-        <Search
-          placeholder="Search books"
-          onSearch={handleSearch}
-          style={{ width: 200 }}
-        />
-        <Avatar icon={<UserOutlined />} className="profile-icon" />
+        <div className="nav-left-side">
+          <span className="logo-small">
+            <Link to="/">
+              <img src={LogoSmall} alt="BookMart" />
+            </Link>
+          </span>
+          <Search
+            placeholder="Search books"
+            onSearch={handleSearch}
+            style={{ width: 200 }}
+          />
+        </div>
+        <div>
+          <Space>
+            <Tooltip title="Vist Repository">
+              <a
+                href="https://www.github.com/junaid7lone/bookmart/"
+                target="_blank"
+              >
+                <Avatar icon={<GithubFilled />} className="profile-icon" />
+              </a>
+            </Tooltip>
+            <Avatar icon={<UserOutlined />} className="profile-icon" />
+          </Space>
+        </div>
       </div>
     </Header>
   );

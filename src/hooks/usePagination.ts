@@ -9,7 +9,10 @@ interface PaginationResult<T> {
   setCurrentPage: (page: number) => void;
 }
 
-export const usePagination = <T>(items: T[], itemsPerPage: number): PaginationResult<T> => {
+export const usePagination = <T>(
+  items: T[],
+  itemsPerPage: number
+): PaginationResult<T> => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = items.length;

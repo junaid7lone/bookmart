@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Book } from '../types/book';
 // import axios from 'axios';
-import {data as dummyBooks }from "../services/list" assert {type :json}
+import { data as dummyBooks } from '../services/list' assert { type: json };
 
 interface BooksState {
   books: Book[];
@@ -22,7 +22,7 @@ export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
 
   // Simulate a delay to mimic an API call
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  
+
   // Return dummy data
   return dummyBooks;
 });

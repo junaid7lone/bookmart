@@ -1,6 +1,6 @@
 import React from 'react';
 import { Book } from '../../types/book';
-import { Drawer, Image } from 'antd';
+import { Drawer, Image, Button } from 'antd';
 import './BookDetails.scss';
 import Placeholder from '../../assets/placeholder.png';
 
@@ -17,13 +17,19 @@ const BookDetails: React.FC<BookDetailsProps> = ({
 }) => {
   if (!book) return null;
 
+  const handleReadClick = () => {
+    const pdfUrl =
+      'https://drive.google.com/file/d/1oCgcUISodAxjb1Tckc5PDISSyY-d8Mri/view';
+    window.open(pdfUrl, '_blank');
+  };
+
   return (
     <Drawer
       title={book.title}
       placement="right"
       width={400}
       onClose={onClose}
-      visible={visible}
+      open={visible}
     >
       <div className="book-details">
         <Image
@@ -43,6 +49,9 @@ const BookDetails: React.FC<BookDetailsProps> = ({
         <p>
           <strong>Description:</strong> {book.description}
         </p>
+        <Button type="primary" onClick={handleReadClick}>
+          Read
+        </Button>
       </div>
     </Drawer>
   );

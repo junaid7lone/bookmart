@@ -12,7 +12,10 @@
   font-size: $min-size;
 
   @media (min-width: 600px) {
-    font-size: calc(#{$min-size} + (#{$max-size} - #{$min-size}) * ((100vw - 600px) / (1200 - 600)));
+    font-size: calc(
+      #{$min-size} + (#{$max-size} - #{$min-size}) * ((100vw - 600px) /
+            (1200 - 600))
+    );
   }
 
   @media (min-width: 1200px) {
