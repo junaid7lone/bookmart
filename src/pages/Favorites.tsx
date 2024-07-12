@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Spin, Alert, Pagination, Result, Button } from 'antd';
+import { Spin, Alert, Pagination, Result } from 'antd';
 
 import type { Book } from '../types/book';
 import BookItem from '@components/bookitem/BookItem';
