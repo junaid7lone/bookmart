@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Spin, Alert, Pagination, Result } from 'antd';
-
+import { Spin, Alert, Pagination, Result, notification } from 'antd';
+import { HeartOutlined } from '@ant-design/icons';
 import type { Book } from '../types/book';
 import BookItem from '@components/bookitem/BookItem';
 import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';
 import BookDetails from '@components/book/BookDetails';
 import config from '@/config';
-import { HeartOutlined } from '@ant-design/icons';
 
 const Favorites: React.FC = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -21,6 +20,24 @@ const Favorites: React.FC = () => {
   const handleViewBook = (book: Book) => {
     setSelectedBook(book);
     setIsDrawerVisible(true);
+  };
+
+  const handleRemoveFavorite = (bookId: string) => {
+    try {
+      const updatedFavorites = favorites.filter((book) => book.id !== bookId);
+      setFavorites(updatedFavorites);
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      notification.info({
+        message: `Removed from favorites`,
+        placement: 'bottomRight',
+      });
+    } catch (err) {
+      console.error('Failed to remove book from favorites', err);
+      notification.error({
+        message: 'Error',
+        description: 'Failed to remove book from favorites',
+      });
+    }
   };
 
   useEffect(() => {
@@ -72,6 +89,7 @@ const Favorites: React.FC = () => {
                 key={book.id}
                 book={book}
                 onView={() => handleViewBook(book)}
+                onRemoveFavorite={() => handleRemoveFavorite(book.id)}
               />
             ))}
           </div>

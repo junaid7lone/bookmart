@@ -19,6 +19,7 @@ interface BookItemProps {
   onEdit?: () => void;
   onDelete?: () => void;
   onView: () => void;
+  onRemoveFavorite?: () => void;
 }
 
 const BookItem: React.FC<BookItemProps> = ({
@@ -26,6 +27,7 @@ const BookItem: React.FC<BookItemProps> = ({
   onEdit,
   onDelete,
   onView,
+  onRemoveFavorite,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -49,10 +51,7 @@ const BookItem: React.FC<BookItemProps> = ({
         (favBook: Book) => favBook.id !== book.id
       );
       setIsFavorite(false);
-      notification.info({
-        message: `Removed from favorites`,
-        placement: 'bottomRight',
-      });
+      onRemoveFavorite && onRemoveFavorite();
     } else {
       updatedFavorites = [...savedFavorites, book];
       setIsFavorite(true);
