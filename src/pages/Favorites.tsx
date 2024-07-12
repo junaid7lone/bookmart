@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Spin, Alert, Pagination } from 'antd';
+import { Spin, Alert, Pagination, Result, Button } from 'antd';
 
 import type { Book } from '../types/book';
 import BookItem from '@components/bookitem/BookItem';
@@ -7,6 +7,7 @@ import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';
 import BookDetails from '@components/book/BookDetails';
 import config from '@/config';
+import { HeartOutlined } from '@ant-design/icons';
 
 const Favorites: React.FC = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -61,22 +62,28 @@ const Favorites: React.FC = () => {
   return (
     <div className="favorites-page">
       <h2>Favorites</h2>
-      <div className="books-container">
-        {currentFavorites.map((book) => (
-          <BookItem
-            key={book.id}
-            book={book}
-            onView={() => handleViewBook(book)}
+      {currentFavorites.length === 0 ? (
+        <Result icon={<HeartOutlined />} title="No favorite books yet" />
+      ) : (
+        <>
+          <div className="books-container">
+            {currentFavorites.map((book) => (
+              <BookItem
+                key={book.id}
+                book={book}
+                onView={() => handleViewBook(book)}
+              />
+            ))}
+          </div>
+          <Pagination
+            current={currentPage}
+            pageSize={booksPerPage}
+            total={totalItems}
+            onChange={setCurrentPage}
+            className="pagination"
           />
-        ))}
-      </div>
-      <Pagination
-        current={currentPage}
-        pageSize={booksPerPage}
-        total={totalItems}
-        onChange={setCurrentPage}
-        className="pagination"
-      />
+        </>
+      )}
       <BookDetails
         book={selectedBook}
         visible={isDrawerVisible}

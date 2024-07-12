@@ -7,7 +7,9 @@ import {
   Button,
   Modal,
   notification,
+  Result,
 } from 'antd';
+import { SmileOutlined } from '@ant-design/icons';
 
 import BookItem from '@components/bookitem/BookItem';
 import BookForm from '@components/book/BookForm';
@@ -107,32 +109,46 @@ const Home: React.FC = () => {
       </div>
 
       <div className="books-container">
-        {memoizedCurrentBooks.map((book) => (
-          <BookItem
-            key={book.id}
-            book={book}
-            onView={() => handleViewBook(book)}
-            onEdit={
-              book.id.toString().startsWith('local')
-                ? () => handleEditBook(book)
-                : undefined
-            }
-            onDelete={
-              book.id.toString().startsWith('local')
-                ? () => deleteBook(book.id)
-                : undefined
+        {memoizedCurrentBooks.length === 0 ? (
+          <Result
+            icon={<SmileOutlined />}
+            title="No books available."
+            extra={
+              <Button type="primary" onClick={handleAddBook}>
+                Add New Book
+              </Button>
             }
           />
-        ))}
+        ) : (
+          memoizedCurrentBooks.map((book) => (
+            <BookItem
+              key={book.id}
+              book={book}
+              onView={() => handleViewBook(book)}
+              onEdit={
+                book.id.toString().startsWith('local')
+                  ? () => handleEditBook(book)
+                  : undefined
+              }
+              onDelete={
+                book.id.toString().startsWith('local')
+                  ? () => deleteBook(book.id)
+                  : undefined
+              }
+            />
+          ))
+        )}
       </div>
 
-      <Pagination
-        current={currentPage}
-        pageSize={booksPerPage}
-        total={totalItems}
-        onChange={setCurrentPage}
-        className="pagination"
-      />
+      {memoizedCurrentBooks.length && (
+        <Pagination
+          current={currentPage}
+          pageSize={booksPerPage}
+          total={totalItems}
+          onChange={setCurrentPage}
+          className="pagination"
+        />
+      )}
 
       <Modal
         title="Add / Edit Book"
