@@ -1,9 +1,10 @@
 import React from 'react';
 import { Input, Avatar, Layout, Space, Tooltip } from 'antd';
 import { GithubFilled, UserOutlined } from '@ant-design/icons';
-import './Header.scss';
 import { Link } from 'react-router-dom';
-import LogoSmall from '../../assets/bookmark-icon.png';
+
+import LogoSmall from '@assets/bookmark-icon.png';
+import './Header.scss';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -33,8 +34,10 @@ const AppHeader: React.FC = () => {
           <Space>
             <Tooltip title="Vist Repository">
               <a
+                key="github-link"
                 href="https://www.github.com/junaid7lone/bookmart/"
                 target="_blank"
+                rel="noreferrer"
               >
                 <Avatar icon={<GithubFilled />} className="profile-icon" />
               </a>

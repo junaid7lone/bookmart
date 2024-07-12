@@ -1,9 +1,10 @@
-import { Book } from '../types/book';
+import { Book } from '@types/book';
+import config from '../config';
 
 const API_URL = 'https://my-json-server.typicode.com/cutamar/mock/books';
 
 export const fetchBooks = async (): Promise<Book[]> => {
-  const response = await fetch(API_URL);
+  const response = await fetch(config.booksApiUrl);
   if (!response.ok) {
     throw new Error('Failed to fetch books');
   }

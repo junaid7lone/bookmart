@@ -1,8 +1,10 @@
 import React from 'react';
-import { Book } from '../../types/book';
 import { Drawer, Image, Button } from 'antd';
+
+import { Book } from '@types/book';
+import Placeholder from '@assets/placeholder.png';
 import './BookDetails.scss';
-import Placeholder from '../../assets/placeholder.png';
+import config from '@config';
 
 interface BookDetailsProps {
   book: Book | null;
@@ -18,9 +20,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({
   if (!book) return null;
 
   const handleReadClick = () => {
-    const pdfUrl =
-      'https://drive.google.com/file/d/1oCgcUISodAxjb1Tckc5PDISSyY-d8Mri/view';
-    window.open(pdfUrl, '_blank');
+    window.open(config.pdfUrl, '_blank');
   };
 
   return (

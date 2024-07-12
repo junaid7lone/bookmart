@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Book } from '../types/book';
 import { Spin, Alert, Pagination } from 'antd';
-import BookItem from '../components/bookitem/BookItem';
-import { usePagination } from '../hooks/usePagination';
+
+import { Book } from '@types/book';
+import BookItem from '@components/bookitem/BookItem';
+import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';
-import BookDetails from '../components/book/BookDetails';
+import BookDetails from '@components/book/BookDetails';
+import config from '@/config';
 
 const Favorites: React.FC = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -13,7 +15,7 @@ const Favorites: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
-  const booksPerPage = 5;
+  const booksPerPage = config.defaultPaginationSize;
 
   const handleViewBook = (book: Book) => {
     setSelectedBook(book);

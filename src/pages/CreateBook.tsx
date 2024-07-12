@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Book } from '../types/book';
-import BookForm from '../components/book/BookForm';
 import { Card, Layout, notification } from 'antd';
+
+import { Book } from '@types/book';
+import BookForm from '@components/book/BookForm';
 import './CreateBook.scss';
 
 const { Content } = Layout;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import Favorites from './pages/Favorites';
 import { Layout } from 'antd';
-import Sidebar from './components/sidebar/Sidebar';
 import { Content } from 'antd/es/layout/layout';
-import CreateBook from './pages/CreateBook';
-import AppHeader from './components/header/Header';
-// import './App.scss';
+
+import Home from '@pages/Home';
+import Favorites from '@pages/Favorites';
+import Sidebar from '@components/sidebar/Sidebar';
+import CreateBook from '@pages/CreateBook';
+import AppHeader from '@components/header/Header';
 
 const App: React.FC = () => {
   return (

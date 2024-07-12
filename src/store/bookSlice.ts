@@ -1,15 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Book } from '../types/book';
-// import axios from 'axios';
-import { data as dummyBooks } from '../services/list' assert { type: json };
+import { BookState } from './types';
+import axios from 'axios';
 
-interface BooksState {
-  books: Book[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
-}
-
-const initialState: BooksState = {
+const initialState: BookState = {
   books: [],
   status: 'idle',
   error: null,
@@ -17,14 +10,10 @@ const initialState: BooksState = {
 
 // Thunk to fetch books
 export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
-  // const response = await axios.get('https://my-json-server.typicode.com/cutamar/mock/books');
-  // return response.data;
-
-  // Simulate a delay to mimic an API call
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  // Return dummy data
-  return dummyBooks;
+  const response = await axios.get(
+    'https://my-json-server.typicode.com/cutamar/mock/books'
+  );
+  return response.data;
 });
 
 const booksSlice = createSlice({

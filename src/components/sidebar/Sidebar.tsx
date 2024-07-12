@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HomeOutlined, HeartOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import Logo from '../../assets/logo-full.png';
+
+import Logo from '@assets/logo-full.png';
 import './Sidebar.scss';
 
 const { Sider } = Layout;
@@ -38,17 +39,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <Sider
-      theme="light"
-      breakpoint="lg"
-      collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
+    <Sider theme="light" breakpoint="lg" collapsedWidth="0">
       <div className="logo-vertical">
         <Link to="/">
           <img width={150} src={Logo} alt="BookMart" />

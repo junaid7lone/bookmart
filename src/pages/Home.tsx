@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Spin, Alert, Pagination, Button, Modal } from 'antd';
-import BookItem from '../components/bookitem/BookItem';
-import BookForm from '../components/book/BookForm';
-import BookDetails from '../components/book/BookDetails';
-import { Book } from '../types/book';
-import { Layout } from 'antd';
-import { usePagination } from '../hooks/usePagination';
-import useBooks from '../hooks/useBook';
+import React, { useState, useCallback, useMemo } from 'react';
+import {
+  Layout,
+  Spin,
+  Alert,
+  Pagination,
+  Button,
+  Modal,
+  notification,
+} from 'antd';
+
+import BookItem from '@components/bookitem/BookItem';
+import BookForm from '@components/book/BookForm';
+import BookDetails from '@components/book/BookDetails';
+import { Book } from '@types/book';
+import { usePagination } from '@hooks/usePagination';
+import useBooks from '@hooks/useBook';
 import './Home.scss';
+import config from '@/config';
 
 const { Content } = Layout;
 
@@ -18,7 +27,7 @@ const Home: React.FC = () => {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
-  const booksPerPage = 5;
+  const booksPerPage = config.defaultPaginationSize;
 
   const {
     currentPage,
@@ -27,33 +36,47 @@ const Home: React.FC = () => {
     setCurrentPage,
   } = usePagination(books, booksPerPage);
 
-  const handleAddBook = () => {
+  const handleAddBook = useCallback(() => {
     setEditingBook(null);
     setIsModalVisible(true);
-  };
+  }, []);
 
-  const handleEditBook = (book: Book) => {
+  const handleEditBook = useCallback((book: Book) => {
     setEditingBook(book);
     setIsModalVisible(true);
-  };
+  }, []);
 
-  const handleViewBook = (book: Book) => {
+  const handleViewBook = useCallback((book: Book) => {
     setSelectedBook(book);
     setIsDrawerVisible(true);
-  };
+  }, []);
 
-  const handleFormSubmit = (book: Book) => {
-    if (editingBook) {
-      editBook(book);
-    } else {
-      addBook(book);
-    }
-    setIsModalVisible(false);
-  };
+  const handleFormSubmit = useCallback(
+    (book: Book) => {
+      try {
+        if (editingBook) {
+          editBook(book);
+        } else {
+          addBook(book);
+        }
+        setIsModalVisible(false);
+      } catch (err) {
+        console.error('Failed to submit form', err);
+        notification.error({
+          message: 'Error',
+          description: 'Failed to submit form',
+          placement: 'bottomRight',
+        });
+      }
+    },
+    [editingBook, addBook, editBook]
+  );
+
+  const memoizedCurrentBooks = useMemo(() => currentBooks, [currentBooks]);
 
   if (status === 'loading') {
     return (
-      <div className="flex items-center justify-center">
+      <div className="mt-10 flex items-center justify-center">
         <Spin size="large" />
       </div>
     );
@@ -84,7 +107,7 @@ const Home: React.FC = () => {
       </div>
 
       <div className="books-container">
-        {currentBooks.map((book) => (
+        {memoizedCurrentBooks.map((book) => (
           <BookItem
             key={book.id}
             book={book}

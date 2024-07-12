@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { Book } from '../../types/book';
 import { Button } from 'antd';
+
+import { FormInputs } from '@types/formInput';
 import './BookForm.scss';
 
 interface BookFormProps {
-  onSubmit: (book: Book) => void;
-  initialData?: Book;
-}
-
-interface FormInputs {
-  title: string;
-  author: string;
-  cover: string;
-  publicationDate: string;
-  description: string;
+  onSubmit: (book: FormInputs) => void;
+  initialData?: FormInputs;
 }
 
 const BookForm: React.FC<BookFormProps> = ({ onSubmit, initialData }) => {
@@ -44,19 +37,22 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, initialData }) => {
     }
   }, [initialData, reset]);
 
-  const onSubmitHandler: SubmitHandler<FormInputs> = (data) => {
-    const newBook = {
-      ...initialData,
-      ...data,
-      publicationDate: data.publicationDate
-        ? new Date(data.publicationDate).toISOString()
-        : '',
-      id: initialData?.id || `local-${Date.now()}`,
-    };
+  const onSubmitHandler: SubmitHandler<FormInputs> = useCallback(
+    (data) => {
+      const newBook = {
+        ...initialData,
+        ...data,
+        publicationDate: data.publicationDate
+          ? new Date(data.publicationDate).toISOString()
+          : '',
+        id: initialData?.id || `local-${Date.now()}`,
+      };
 
-    onSubmit(newBook);
-    reset();
-  };
+      onSubmit(newBook);
+      reset();
+    },
+    [onSubmit, reset, initialData]
+  );
 
   const inputClass = 'ant-input ant-input-outlined';
 

@@ -1,5 +1,5 @@
-export type Book = {
-  id: string | number;
+export type FormInputs = {
+  id: string;
   title: string;
   author: string;
   cover: string;

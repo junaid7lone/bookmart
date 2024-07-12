@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Book } from '../../types/book';
-import { Card, Button, Image, Tooltip } from 'antd';
+import { Card, Button, Image, Tooltip, notification } from 'antd';
 import {
   HeartOutlined,
   HeartFilled,
-  MessageOutlined,
   EditOutlined,
   DeleteOutlined,
   EyeOutlined,
 } from '@ant-design/icons';
+
+import { Book } from '@types/book';
+import Placeholder from '@assets/placeholder.png';
 import './BookItem.scss';
-import Placeholder from '../../assets/placeholder.png';
 
 const { Meta } = Card;
 
@@ -49,38 +49,45 @@ const BookItem: React.FC<BookItemProps> = ({
         (favBook: Book) => favBook.id !== book.id
       );
       setIsFavorite(false);
+      notification.info({
+        message: `Removed from favorites`,
+        placement: 'bottomRight',
+      });
     } else {
       updatedFavorites = [...savedFavorites, book];
       setIsFavorite(true);
+      notification.info({
+        message: `Added to favorites`,
+        placement: 'bottomRight',
+      });
     }
 
     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
   };
 
   const actions = [
-    <Tooltip title="Add to Favorites">
+    <Tooltip title="Add to Favorites" key="fav-btn">
       <Button
         shape="circle"
         icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
         onClick={toggleFavorite}
       />
     </Tooltip>,
-    <Tooltip title="View Details">
+    <Tooltip title="View Details" key="view-btn">
       <Button shape="circle" icon={<EyeOutlined />} onClick={onView} />,
     </Tooltip>,
-    <Button shape="circle" icon={<MessageOutlined />} />,
   ];
 
   if (onEdit) {
     actions.push(
-      <Tooltip title="Edit Book">
+      <Tooltip title="Edit Book" key="edit-btn">
         <Button shape="circle" icon={<EditOutlined />} onClick={onEdit} />
       </Tooltip>
     );
   }
   if (onDelete) {
     actions.push(
-      <Tooltip title="Delete Book">
+      <Tooltip title="Delete Book" key="delete-btn">
         <Button shape="circle" icon={<DeleteOutlined />} onClick={onDelete} />
       </Tooltip>
     );
@@ -93,20 +100,25 @@ const BookItem: React.FC<BookItemProps> = ({
         cover={
           <div className="book-cover-wrapper">
             <Image
-              className="book-image"
+              className="book-image cursor-pointer"
               src={book.cover}
               alt={book.title}
               preview={false}
               fallback={Placeholder}
+              onClick={onView}
             />
           </div>
         }
         actions={actions}
       >
         <Meta
-          title={<span className="book-title">{book.title}</span>}
+          title={
+            <span className="book-title cursor-pointer" onClick={onView}>
+              {book.title}
+            </span>
+          }
           description={
-            <div className="book-author">
+            <div className="book-author cursor-pointer" onClick={onView}>
               {book.author}{' '}
               {book?.publicationDate && (
                 <div className="date">
