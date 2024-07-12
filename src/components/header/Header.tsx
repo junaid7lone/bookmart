@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import LogoSmall from '@assets/bookmark-icon.png';
 import './Header.scss';
+import config from '@/config';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -12,7 +13,6 @@ const { Search } = Input;
 const AppHeader: React.FC = () => {
   const handleSearch = (value: string) => {
     console.log('Search value:', value);
-    // Implement search functionality here
   };
 
   return (
@@ -35,7 +35,7 @@ const AppHeader: React.FC = () => {
             <Tooltip title="Vist Repository">
               <a
                 key="github-link"
-                href="https://www.github.com/junaid7lone/bookmart/"
+                href={config.gitRepoUrl}
                 target="_blank"
                 rel="noreferrer"
               >

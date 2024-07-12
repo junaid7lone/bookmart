@@ -12,7 +12,7 @@ import {
 import BookItem from '@components/bookitem/BookItem';
 import BookForm from '@components/book/BookForm';
 import BookDetails from '@components/book/BookDetails';
-import { Book } from '@types/book';
+import type { Book } from '../types/book';
 import { usePagination } from '@hooks/usePagination';
 import useBooks from '@hooks/useBook';
 import './Home.scss';

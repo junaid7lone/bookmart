@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
 
-import { FormInputs } from '@types/formInput';
+import type { FormInputs } from '../../types/formInput';
 import './BookForm.scss';
 
 interface BookFormProps {

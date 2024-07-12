@@ -8,7 +8,7 @@ import {
   EyeOutlined,
 } from '@ant-design/icons';
 
-import { Book } from '@types/book';
+import type { Book } from '../../types/book';
 import Placeholder from '@assets/placeholder.png';
 import './BookItem.scss';
 
@@ -118,8 +118,11 @@ const BookItem: React.FC<BookItemProps> = ({
             </span>
           }
           description={
-            <div className="book-author cursor-pointer" onClick={onView}>
-              {book.author}{' '}
+            <div
+              className=" cursor-pointer flex justify-between "
+              onClick={onView}
+            >
+              <div className="book-author">{book.author}</div>
               {book?.publicationDate && (
                 <div className="date">
                   {new Date(book.publicationDate).toDateString()}

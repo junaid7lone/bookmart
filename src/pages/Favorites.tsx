@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Spin, Alert, Pagination } from 'antd';
 
-import { Book } from '@types/book';
+import type { Book } from '../types/book';
 import BookItem from '@components/bookitem/BookItem';
 import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';

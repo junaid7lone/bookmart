@@ -1,9 +1,9 @@
 import React from 'react';
 import { Drawer, Image, Button } from 'antd';
 
-import { Book } from '@types/book';
 import Placeholder from '@assets/placeholder.png';
 import './BookDetails.scss';
+import type { Book } from '../../types/book';
 import config from '@config';
 
 interface BookDetailsProps {

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BookState } from './types';
+import type { BookState } from './types';
 import axios from 'axios';
 
 const initialState: BookState = {

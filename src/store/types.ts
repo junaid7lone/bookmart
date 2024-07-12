@@ -1,4 +1,4 @@
-import { Book } from '@types/book';
+import type { Book } from '../types/book';
 
 export type BookState = {
   books: Book[];

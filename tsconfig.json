@@ -20,10 +20,9 @@
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"],
-      "@types/*": ["./src/types/*"],
       "@store/*": ["./src/store/*"],
       "@assets/*": ["./src/assets/*"],
-      "@config": ["./src/config"]
+      "@config": ["./src/config"],
     }
   },
   "include": ["src"]

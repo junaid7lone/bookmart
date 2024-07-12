@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'antd';
 
-import { Book } from '@types/book';
-import { AppDispatch, RootState } from '@store/store';
+import type { Book } from '../types/book';
+import type { AppDispatch, RootState } from '@store/store';
 import { fetchBooks } from '@store/bookSlice';
 
 const useBooks = () => {
