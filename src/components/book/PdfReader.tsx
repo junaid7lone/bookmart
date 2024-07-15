@@ -18,9 +18,7 @@ const resizeObserverOptions = {};
 
 const maxWidth = 800;
 
-type PDFFile = string | File | null;
-
-export default function PdfReader({ bookTitle }: { bookTitle: string }) {
+export default function PdfReader() {
   const file =
     'https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf';
 
