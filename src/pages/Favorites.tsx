@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Spin, Alert, Pagination, Result, notification } from 'antd';
+import { Spin, Alert, Pagination, Result, notification, Layout } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import type { Book } from '../types/book';
 import BookItem from '@components/bookitem/BookItem';
@@ -7,6 +7,8 @@ import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';
 import BookDetails from '@components/book/BookDetails';
 import config from '@/config';
+
+const { Content } = Layout;
 
 const Favorites: React.FC = () => {
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
@@ -66,9 +68,11 @@ const Favorites: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center">
-        <Spin size="large" />
-      </div>
+      <Content style={{ margin: '24px 16px 0' }} className="home-page">
+        <div className="flex items-center justify-center">
+          <Spin size="large" />
+        </div>
+      </Content>
     );
   }
 
@@ -77,7 +81,7 @@ const Favorites: React.FC = () => {
   }
 
   return (
-    <div className="favorites-page">
+    <Content className="favorites-page">
       <h2>Favorites</h2>
       {currentFavorites.length === 0 ? (
         <Result icon={<HeartOutlined />} title="No favorite books yet" />
@@ -107,7 +111,7 @@ const Favorites: React.FC = () => {
         visible={isDrawerVisible}
         onClose={() => setIsDrawerVisible(false)}
       />
-    </div>
+    </Content>
   );
 };
 

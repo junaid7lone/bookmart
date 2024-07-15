@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { notification } from 'antd';
 
@@ -16,11 +17,14 @@ const useBooks = () => {
     return savedBooks ? JSON.parse(savedBooks) : [];
   });
 
+  const booksFetchedRef = useRef(false);
+
   useEffect(() => {
-    if (status === 'idle') {
+    if (!booksFetchedRef.current) {
       dispatch(fetchBooks());
+      booksFetchedRef.current = true;
     }
-  }, [status, dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (status === 'failed' && error) {
@@ -69,14 +73,12 @@ const useBooks = () => {
         notification.success({
           message: 'Success',
           description: 'Book updated successfully',
-          placement: 'bottomRight',
         });
       } catch (err) {
         console.error('Failed to edit book', err);
         notification.error({
           message: 'Error',
           description: 'Failed to update book',
-          placement: 'bottomRight',
         });
       }
     },
@@ -84,7 +86,7 @@ const useBooks = () => {
   );
 
   const deleteBook = useCallback(
-    (bookId: string | number) => {
+    (bookId: string) => {
       try {
         const updatedBooks = localBooks.filter((book) => book.id !== bookId);
         setLocalBooks(updatedBooks);
@@ -92,14 +94,12 @@ const useBooks = () => {
         notification.success({
           message: 'Success',
           description: 'Book deleted successfully',
-          placement: 'bottomRight',
         });
       } catch (err) {
         console.error('Failed to delete book', err);
         notification.error({
           message: 'Error',
           description: 'Failed to delete book',
-          placement: 'bottomRight',
         });
       }
     },

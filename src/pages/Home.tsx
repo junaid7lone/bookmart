@@ -78,9 +78,11 @@ const Home: React.FC = () => {
 
   if (status === 'loading') {
     return (
-      <div className="mt-10 flex items-center justify-center">
-        <Spin size="large" />
-      </div>
+      <Content style={{ margin: '24px 16px 0' }} className="home-page">
+        <div className="mt-10 flex items-center justify-center">
+          <Spin size="large" />
+        </div>
+      </Content>
     );
   }
 
