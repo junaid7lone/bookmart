@@ -10,7 +10,7 @@
 .grid-item {
   flex-basis: 20%;
   -ms-flex: auto;
-  min-width: 33%;
+  min-width: 25%;
   position: relative;
   padding: 10px;
   box-sizing: border-box;
@@ -24,13 +24,14 @@
   overflow: hidden;
   transition: transform 0.2s;
   width: 100%;
+  padding: 0;
 
   .cursor-pointer {
     cursor: pointer;
   }
 
   .ant-card-body {
-    padding: 24px 0 0 0;
+    padding: 20px;
   }
 
   &:hover {
@@ -43,15 +44,14 @@
     overflow: hidden;
 
     .ant-image {
-      max-height: 200px;
+      aspect-ratio: 1 / 1.5 ;
       display: flex;
       justify-content: center;
 
       .ant-image-img {
-        height: auto;
         vertical-align: middle;
-        max-height: 200px;
-        width: auto;
+        height: auto;
+        width: 100%;
       }
     }
   }
@@ -92,7 +92,7 @@
 
 @media (max-width: 1333px) {
   .grid-item {
-    flex-basis: 33.33%;
+    flex-basis: 25%;
   }
 }
 
