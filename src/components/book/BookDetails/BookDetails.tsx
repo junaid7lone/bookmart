@@ -4,7 +4,7 @@ import { Drawer, Image, Button, Modal } from 'antd';
 import Placeholder from '@assets/placeholder.png';
 import './BookDetails.scss';
 import type { Book } from '@types/book';
-import PdfReader from './PdfReader';
+import PdfReader from '../../PdfReader/PdfReader';
 
 type BookDetailsProps = {
   book: Book | null;
@@ -23,7 +23,6 @@ const BookDetails: React.FC<BookDetailsProps> = ({
 
   const handleReadClick = () => {
     setIsModelOpen(true);
-    // window.open(config.pdfUrl, '_blank');
   };
 
   return (
@@ -47,7 +46,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({
             <strong>Author:</strong> {book.author}
           </p>
           <p>
-            <strong>Publication Date:</strong>{' '}
+            <strong>Publication Date:</strong>
             {new Date(book.publicationDate).toLocaleDateString()}
           </p>
           <p>
@@ -68,7 +67,7 @@ const BookDetails: React.FC<BookDetailsProps> = ({
         height={'80vh'}
         destroyOnClose
       >
-        <PdfReader bookTitle={book.title} />
+        <PdfReader />
       </Modal>
     </>
   );

@@ -2,9 +2,9 @@ import React, { useEffect, useCallback } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import TextInput from '@components/form/TextInput';
-import DateInput from '@components/form/DateInput';
-import CustomTextArea from '@components/form/TextArea';
+import TextInput from '@/components/common/FormElements/TextInput';
+import DateInput from '@/components/common/FormElements/DateInput';
+import CustomTextArea from '@/components/common/FormElements/TextArea';
 import type { FormInputs } from '@types/formInput';
 import './BookForm.scss';
 

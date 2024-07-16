@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Layout, notification } from 'antd';
 
-import BookForm from '@components/book/BookForm';
+import BookForm from '@/components/book/BookForm/BookForm';
 import type { Book } from '@types/book';
 import './CreateBook.scss';
 

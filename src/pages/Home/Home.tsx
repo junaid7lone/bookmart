@@ -2,9 +2,9 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { Spin, Alert, Pagination, Button, Modal, Result, Layout } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 
-import BookItem from '@components/book/BookItem';
-import BookForm from '@components/book/BookForm';
-import BookDetails from '@components/book/BookDetails';
+import BookItem from '@/components/book/BookItem/BookItem';
+import BookForm from '@/components/book/BookForm/BookForm';
+import BookDetails from '@/components/book/BookDetails/BookDetails';
 import type { Book } from '@types/book';
 import usePagination from '@hooks/usePagination';
 import useBooks from '@hooks/useBooks';

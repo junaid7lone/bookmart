@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import Logo from '../../assets/logo-full.png';
+import Logo from '@assets/logo-full.png';
 
 import './Sidebar.scss';
 
