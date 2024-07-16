@@ -8,8 +8,8 @@ import BookDetails from '@/components/book/BookDetails/BookDetails';
 import type { Book } from '@types/book';
 import usePagination from '@hooks/usePagination';
 import useBooks from '@hooks/useBooks';
-import './Home.scss';
-import config from '@config';
+import styles from './Home.module.scss';
+import { DEFAULT_PAGINATION_SIZE } from '@config';
 
 const { Content } = Layout;
 
@@ -28,14 +28,12 @@ const Home: React.FC = () => {
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
-  const booksPerPage = config.defaultPaginationSize;
-
   const {
     currentPage,
     paginatedItems: currentBooks,
     totalItems,
     setCurrentPage,
-  } = usePagination(books, booksPerPage);
+  } = usePagination(books, DEFAULT_PAGINATION_SIZE);
 
   const handleAddBook = useCallback(() => {
     setEditingBook(null);
@@ -68,7 +66,7 @@ const Home: React.FC = () => {
 
   if (status === 'loading') {
     return (
-      <Content style={{ margin: '24px 16px 0' }} className="home-page">
+      <Content className={styles.homePage}>
         <div className="flex items-center justify-center">
           <Spin size="large" />
         </div>
@@ -78,18 +76,20 @@ const Home: React.FC = () => {
 
   if (status === 'failed') {
     return (
-      <Alert
-        message="Error"
-        description="Failed to load books"
-        type="error"
-        showIcon
-      />
+      <Content className={styles.homePage}>
+        <Alert
+          message="Error"
+          description="Failed to load books"
+          type="error"
+          showIcon
+        />
+      </Content>
     );
   }
 
   return (
-    <Content style={{ margin: '24px 16px 0' }} className="home-page">
-      <div className="flex justify-between">
+    <Content className={styles.homePage}>
+      <div className={styles.pageHeading}>
         <h2>Popular Books</h2>
         <Button
           type="primary"
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
         </Button>
       </div>
 
-      <div className="books-container">
+      <div className={styles.booksContainer}>
         {memoizedCurrentBooks.length === 0 ? (
           <Result
             icon={<SmileOutlined />}
@@ -137,10 +137,10 @@ const Home: React.FC = () => {
       {memoizedCurrentBooks.length && (
         <Pagination
           current={currentPage}
-          pageSize={booksPerPage}
+          pageSize={DEFAULT_PAGINATION_SIZE}
           total={totalItems}
           onChange={setCurrentPage}
-          className="pagination"
+          className={styles.pagination}
         />
       )}
 

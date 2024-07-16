@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Drawer, Image, Button, Modal } from 'antd';
 
 import Placeholder from '@assets/placeholder.png';
-import './BookDetails.scss';
+import styles from './BookDetails.module.scss';
 import type { Book } from '@types/book';
-import PdfReader from '../../PdfReader/PdfReader';
+import PdfReader from '@components/PdfReader/PdfReader';
 
 type BookDetailsProps = {
   book: Book | null;
@@ -34,12 +34,12 @@ const BookDetails: React.FC<BookDetailsProps> = ({
         onClose={onClose}
         open={visible}
       >
-        <div className="book-details">
+        <div className={styles.BookDetails}>
           <Image
             src={book.cover}
             alt={book.title}
             fallback={Placeholder}
-            className="book-details-cover"
+            className={styles.bookDetailsCover}
           />
           <h3>{book.title}</h3>
           <p>

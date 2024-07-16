@@ -4,7 +4,7 @@ import { Card, Layout, notification } from 'antd';
 
 import BookForm from '@/components/book/BookForm/BookForm';
 import type { Book } from '@types/book';
-import './CreateBook.scss';
+import './CreateBook.module.scss';
 
 const { Content } = Layout;
 

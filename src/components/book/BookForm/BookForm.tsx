@@ -6,7 +6,7 @@ import TextInput from '@/components/common/FormElements/TextInput';
 import DateInput from '@/components/common/FormElements/DateInput';
 import CustomTextArea from '@/components/common/FormElements/TextArea';
 import type { FormInputs } from '@types/formInput';
-import './BookForm.scss';
+import styles from './BookForm.module.scss';
 
 type BookFormProps = {
   onSubmit: (book: FormInputs) => void;
@@ -58,7 +58,7 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, initialData }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit(onSubmitHandler)} className="book-form">
+    <form onSubmit={handleSubmit(onSubmitHandler)} className={styles.bookForm}>
       <TextInput
         id="title"
         placeholder="Title"
@@ -108,7 +108,7 @@ const BookForm: React.FC<BookFormProps> = ({ onSubmit, initialData }) => {
         })}
         error={errors.description}
       />
-      <Button htmlType="submit" type="primary">
+      <Button htmlType="submit" type="primary" className="addBookBtn">
         {initialData ? 'Update Book' : 'Add Book'}
       </Button>
     </form>

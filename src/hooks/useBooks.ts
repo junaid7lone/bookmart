@@ -4,18 +4,22 @@ import type { AppDispatch, RootState } from '@store/store';
 import { fetchBooks } from '../store/bookSlice';
 import { notification } from 'antd';
 import type { Book } from '@types/book';
-import useLocalStorage from '@hooks/useLocalStorage';
 
 const useBooks = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { books, status, error } = useSelector(
     (state: RootState) => state.books
   );
-  const [favoriteBookIds, setFavoriteBookIds] = useLocalStorage<Set<string>>(
-    'favoriteBookIds',
-    new Set(),
-    (value) => new Set(value)
-  );
+  const [favoriteBookIds, setFavoriteBookIds] = useState<Set<string>>(() => {
+    try {
+      const item = localStorage.getItem('favoriteBookIds');
+      const value = item ? JSON.parse(item) : [];
+      return new Set(value);
+    } catch (error) {
+      console.error('Error reading local storage:', error);
+      return new Set();
+    }
+  });
 
   const [localBooks, setLocalBooks] = useState<Book[]>(() => {
     const savedBooks = localStorage.getItem('localBooks');
@@ -41,30 +45,31 @@ const useBooks = () => {
     }
   }, [status, error]);
 
-  const toggleFavorite = useCallback(
-    (bookId: string) => {
-      setFavoriteBookIds((prevFavoriteBookIds) => {
-        const updatedFavoriteBookIds = new Set(prevFavoriteBookIds);
-        if (updatedFavoriteBookIds.has(bookId)) {
-          updatedFavoriteBookIds.delete(bookId);
-          notification.success({
-            message: 'Success',
-            description: 'Book removed from favorites',
-            placement: 'bottomRight',
-          });
-        } else {
-          updatedFavoriteBookIds.add(bookId);
-          notification.success({
-            message: 'Success',
-            description: 'Book added to favorites',
-            placement: 'bottomRight',
-          });
-        }
-        return updatedFavoriteBookIds;
-      });
-    },
-    [setFavoriteBookIds]
-  );
+  const toggleFavorite = useCallback((bookId: string) => {
+    setFavoriteBookIds((prevFavoriteBookIds) => {
+      const updatedFavoriteBookIds = new Set(prevFavoriteBookIds);
+      if (updatedFavoriteBookIds.has(bookId)) {
+        updatedFavoriteBookIds.delete(bookId);
+        notification.success({
+          message: 'Success',
+          description: 'Book removed from favorites',
+          placement: 'bottomRight',
+        });
+      } else {
+        updatedFavoriteBookIds.add(bookId);
+        notification.success({
+          message: 'Success',
+          description: 'Book added to favorites',
+          placement: 'bottomRight',
+        });
+      }
+      localStorage.setItem(
+        'favoriteBookIds',
+        JSON.stringify(Array.from(updatedFavoriteBookIds))
+      );
+      return updatedFavoriteBookIds;
+    });
+  }, []);
 
   const addBook = useCallback(
     (book: Book) => {

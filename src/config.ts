@@ -1,9 +1,5 @@
-const config = {
-  booksApiUrl: 'https://my-json-server.typicode.com/cutamar/mock/books',
-  pdfUrl:
-    'https://drive.google.com/file/d/1oCgcUISodAxjb1Tckc5PDISSyY-d8Mri/view',
-  gitRepoUrl: 'https://www.github.com/junaid7lone/bookmart/',
-  defaultPaginationSize: 5,
-};
-
-export default config;
+export const API_URL = 'https://my-json-server.typicode.com/cutamar/mock/books';
+export const PDF_URL =
+  'https://drive.google.com/uc?export=view&id=1oCgcUISodAxjb1Tckc5PDISSyY-d8Mri';
+export const GIT_REPO_URL = 'https://github.com/junaid7lone/bookmart';
+export const DEFAULT_PAGINATION_SIZE = 5;

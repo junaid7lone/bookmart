@@ -8,7 +8,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from '@ant-design/icons';
-import './BookItem.scss';
+import styles from './BookItem.module.scss';
 import Placeholder from '@assets/placeholder.png';
 
 const { Meta } = Card;
@@ -59,13 +59,13 @@ const BookItem: React.FC<BookItemProps> = ({
   }
 
   return (
-    <article className="grid-item">
+    <article className={styles.gridItem}>
       <Card
-        className="book-item"
+        className={styles.bookItem}
         cover={
-          <div className="book-cover-wrapper">
+          <div className={styles.bookCoverWrapper}>
             <Image
-              className="book-image cursor-pointer"
+              className={styles.bookImage}
               src={book.cover}
               alt={book.title}
               preview={false}
@@ -78,18 +78,18 @@ const BookItem: React.FC<BookItemProps> = ({
       >
         <Meta
           title={
-            <span className="book-title cursor-pointer" onClick={onView}>
+            <span className={styles.bookTitle} onClick={onView}>
               {book.title}
             </span>
           }
           description={
             <div
-              className=" cursor-pointer flex justify-between "
+              className={`${styles.bookAuthor} ${styles.cursorPointer} ${styles.flex} ${styles.justifyBetween}`}
               onClick={onView}
             >
-              <div className="book-author">{book.author}</div>
+              <div className={styles.bookAuthor}>{book.author}</div>
               {book?.publicationDate && (
-                <div className="date">
+                <div className={styles.date}>
                   {new Date(book.publicationDate).toDateString()}
                 </div>
               )}

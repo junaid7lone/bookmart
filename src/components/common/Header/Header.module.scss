@@ -1,4 +1,4 @@
-.app-header {
+.appHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,7 +6,7 @@
   padding: 0 24px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 
-  .app-header-content {
+  .appHeaderContent {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,22 +17,23 @@
     margin-left: auto;
     color: #fff;
   }
-  .nav-left-side {
+
+  .navLeftSide {
     display: flex;
     align-items: center;
-    .logo-small {
+
+    .logoSmall {
       display: none;
     }
   }
-}
-
-@media (max-width: 555px) {
-  .app-header {
+  
+  @media (max-width: 555px) {
     padding: 0 10px;
 
-    .nav-left-side {
+    .navLeftSide {
       gap: 16px;
-      .logo-small {
+
+      .logoSmall {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -4,6 +4,7 @@
   align-items: center;
   margin: 10px 0;
   padding: 10px;
+
   .PDF__container__load {
     margin-top: 1em;
     color: white;
@@ -13,6 +14,7 @@
     width: 100%;
     max-width: calc(100% - 2em);
     margin: 1em 0;
+
     .react-pdf__Document {
       display: flex;
       flex-direction: column;

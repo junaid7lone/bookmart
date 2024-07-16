@@ -4,8 +4,8 @@ import { GithubFilled, UserOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 import LogoSmall from '@assets/bookmark-icon.png';
-import './Header.scss';
-import config from '@/config';
+import styles from './Header.module.scss';
+import { GIT_REPO_URL } from '@/config';
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -16,10 +16,10 @@ const AppHeader: React.FC = () => {
   };
 
   return (
-    <Header className="app-header">
-      <div className="app-header-content">
-        <div className="nav-left-side">
-          <span className="logo-small">
+    <Header className={styles.appHeader}>
+      <div className={styles.appHeaderContent}>
+        <div className={styles.navLeftSide}>
+          <span className={styles.logoSmall}>
             <Link to="/">
               <img src={LogoSmall} alt="BookMart" />
             </Link>
@@ -35,7 +35,7 @@ const AppHeader: React.FC = () => {
             <Tooltip title="Vist Repository">
               <a
                 key="github-link"
-                href={config.gitRepoUrl}
+                href={GIT_REPO_URL}
                 target="_blank"
                 rel="noreferrer"
               >

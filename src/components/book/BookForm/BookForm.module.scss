@@ -1,24 +1,23 @@
-.book-form {
+.bookForm {
   max-width: 600px;
 
-  .form-item {
+  .formItem {
     margin-bottom: 16px;
   }
 
-  .error-message {
+  .errorMessage {
     color: red;
     font-size: 12px;
   }
 
-  .ant-btn-primary {
+  .addBookBtn {
     width: 100%;
   }
 
-  .ant-input {
+  .formInput {
     margin-bottom: 8px;
     margin-top: 20px;
     margin-right: 20px;
-
     background: #ffffff;
     border-width: 1px;
     border-style: solid;

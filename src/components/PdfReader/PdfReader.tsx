@@ -3,7 +3,7 @@ import { useResizeObserver } from '@wojtekmaj/react-hooks';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
-import './PdfReader.scss';
+import './PdfReader.module.scss';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { Progress } from 'antd';
 

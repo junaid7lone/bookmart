@@ -1,0 +1,13 @@
+.create-book-page {
+  padding: 24px 16px;
+  border-radius: 8px;
+
+  h2 {
+    margin: 0 0 24px 0;
+  }
+
+  .ant-card {
+    max-width: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
