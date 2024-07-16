@@ -1,17 +1,22 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { notification } from 'antd';
-
-import type { Book } from '../types/book';
 import type { AppDispatch, RootState } from '@store/store';
-import { fetchBooks } from '@store/bookSlice';
+import { fetchBooks } from '../store/bookSlice';
+import { notification } from 'antd';
+import type { Book } from '@types/book';
+import useLocalStorage from '@hooks/useLocalStorage';
 
 const useBooks = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { books, status, error } = useSelector(
     (state: RootState) => state.books
   );
+  const [favoriteBookIds, setFavoriteBookIds] = useLocalStorage<Set<string>>(
+    'favoriteBookIds',
+    new Set(),
+    (value) => new Set(value)
+  );
+
   const [localBooks, setLocalBooks] = useState<Book[]>(() => {
     const savedBooks = localStorage.getItem('localBooks');
     return savedBooks ? JSON.parse(savedBooks) : [];
@@ -35,6 +40,31 @@ const useBooks = () => {
       });
     }
   }, [status, error]);
+
+  const toggleFavorite = useCallback(
+    (bookId: string) => {
+      setFavoriteBookIds((prevFavoriteBookIds) => {
+        const updatedFavoriteBookIds = new Set(prevFavoriteBookIds);
+        if (updatedFavoriteBookIds.has(bookId)) {
+          updatedFavoriteBookIds.delete(bookId);
+          notification.success({
+            message: 'Success',
+            description: 'Book removed from favorites',
+            placement: 'bottomRight',
+          });
+        } else {
+          updatedFavoriteBookIds.add(bookId);
+          notification.success({
+            message: 'Success',
+            description: 'Book added to favorites',
+            placement: 'bottomRight',
+          });
+        }
+        return updatedFavoriteBookIds;
+      });
+    },
+    [setFavoriteBookIds]
+  );
 
   const addBook = useCallback(
     (book: Book) => {
@@ -113,11 +143,13 @@ const useBooks = () => {
 
   return {
     books: combinedBooks,
-    status,
-    error,
     addBook,
     editBook,
     deleteBook,
+    favoriteBookIds,
+    status,
+    error,
+    toggleFavorite,
   };
 };
 

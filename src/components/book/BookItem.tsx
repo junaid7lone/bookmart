@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button, Image, Tooltip, notification } from 'antd';
+import React from 'react';
+import type { Book } from '@types/book';
+import { Card, Button, Image, Tooltip } from 'antd';
 import {
   HeartOutlined,
   HeartFilled,
@@ -7,63 +8,28 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from '@ant-design/icons';
-
-import type { Book } from '../../types/book';
-import Placeholder from '@assets/placeholder.png';
 import './BookItem.scss';
+import Placeholder from '@assets/placeholder.png';
 
 const { Meta } = Card;
 
-interface BookItemProps {
+type BookItemProps = {
   book: Book;
+  onView?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
-  onView: () => void;
-  onRemoveFavorite?: () => void;
-}
+  isFavorite: boolean;
+  toggleFavorite: () => void;
+};
 
 const BookItem: React.FC<BookItemProps> = ({
   book,
+  onView,
   onEdit,
   onDelete,
-  onView,
-  onRemoveFavorite,
+  isFavorite,
+  toggleFavorite,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem('favorites') || '[]'
-    );
-    if (savedFavorites.some((favBook: Book) => favBook.id === book.id)) {
-      setIsFavorite(true);
-    }
-  }, [book.id]);
-
-  const toggleFavorite = () => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem('favorites') || '[]'
-    );
-    let updatedFavorites;
-
-    if (isFavorite) {
-      updatedFavorites = savedFavorites.filter(
-        (favBook: Book) => favBook.id !== book.id
-      );
-      setIsFavorite(false);
-      onRemoveFavorite && onRemoveFavorite();
-    } else {
-      updatedFavorites = [...savedFavorites, book];
-      setIsFavorite(true);
-      notification.info({
-        message: `Added to favorites`,
-        placement: 'bottomRight',
-      });
-    }
-
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  };
-
   const actions = [
     <Tooltip title="Add to Favorites" key="fav-btn">
       <Button

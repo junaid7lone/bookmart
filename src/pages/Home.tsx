@@ -1,29 +1,28 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import {
-  Layout,
-  Spin,
-  Alert,
-  Pagination,
-  Button,
-  Modal,
-  notification,
-  Result,
-} from 'antd';
+import { Spin, Alert, Pagination, Button, Modal, Result, Layout } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 
-import BookItem from '@components/bookitem/BookItem';
+import BookItem from '@components/book/BookItem';
 import BookForm from '@components/book/BookForm';
 import BookDetails from '@components/book/BookDetails';
-import type { Book } from '../types/book';
-import { usePagination } from '@hooks/usePagination';
-import useBooks from '@hooks/useBook';
+import type { Book } from '@types/book';
+import usePagination from '@hooks/usePagination';
+import useBooks from '@hooks/useBooks';
 import './Home.scss';
-import config from '@/config';
+import config from '@config';
 
 const { Content } = Layout;
 
 const Home: React.FC = () => {
-  const { books, status, addBook, editBook, deleteBook } = useBooks();
+  const {
+    books,
+    favoriteBookIds,
+    status,
+    addBook,
+    editBook,
+    deleteBook,
+    toggleFavorite,
+  } = useBooks();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -55,21 +54,12 @@ const Home: React.FC = () => {
 
   const handleFormSubmit = useCallback(
     (book: Book) => {
-      try {
-        if (editingBook) {
-          editBook(book);
-        } else {
-          addBook(book);
-        }
-        setIsModalVisible(false);
-      } catch (err) {
-        console.error('Failed to submit form', err);
-        notification.error({
-          message: 'Error',
-          description: 'Failed to submit form',
-          placement: 'bottomRight',
-        });
+      if (editingBook) {
+        editBook(book);
+      } else {
+        addBook(book);
       }
+      setIsModalVisible(false);
     },
     [editingBook, addBook, editBook]
   );
@@ -79,7 +69,7 @@ const Home: React.FC = () => {
   if (status === 'loading') {
     return (
       <Content style={{ margin: '24px 16px 0' }} className="home-page">
-        <div className="mt-10 flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <Spin size="large" />
         </div>
       </Content>
@@ -114,7 +104,7 @@ const Home: React.FC = () => {
         {memoizedCurrentBooks.length === 0 ? (
           <Result
             icon={<SmileOutlined />}
-            title="No books available."
+            title="No books available"
             extra={
               <Button type="primary" onClick={handleAddBook}>
                 Add New Book
@@ -126,6 +116,8 @@ const Home: React.FC = () => {
             <BookItem
               key={book.id}
               book={book}
+              isFavorite={favoriteBookIds.has(book.id)}
+              toggleFavorite={() => toggleFavorite(book.id)}
               onView={() => handleViewBook(book)}
               onEdit={
                 book.id.toString().startsWith('local')

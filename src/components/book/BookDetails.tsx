@@ -3,14 +3,14 @@ import { Drawer, Image, Button, Modal } from 'antd';
 
 import Placeholder from '@assets/placeholder.png';
 import './BookDetails.scss';
-import type { Book } from '../../types/book';
+import type { Book } from '@types/book';
 import PdfReader from './PdfReader';
 
-interface BookDetailsProps {
+type BookDetailsProps = {
   book: Book | null;
   visible: boolean;
   onClose: () => void;
-}
+};
 
 const BookDetails: React.FC<BookDetailsProps> = ({
   book,

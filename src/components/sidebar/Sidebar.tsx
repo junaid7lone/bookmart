@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { HomeOutlined, HeartOutlined, PlusOutlined } from '@ant-design/icons';
+import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
+import Logo from '../../assets/logo-full.png';
 
-import Logo from '@assets/logo-full.png';
 import './Sidebar.scss';
 
 const { Sider } = Layout;
@@ -17,12 +17,6 @@ const menuItems = [
   },
   {
     key: '2',
-    icon: <HeartOutlined />,
-    label: <Link to="/favorites">Favorites</Link>,
-    name: '/favorites',
-  },
-  {
-    key: '3',
     icon: <PlusOutlined />,
     label: <Link to="/create">Add New Book</Link>,
     name: '/create',
@@ -32,14 +26,24 @@ const menuItems = [
 const Sidebar: React.FC = () => {
   const location = useLocation();
 
-  const getSelectedKey = () => {
+  const getSelectedKey = useCallback(() => {
     const currentPath = location.pathname;
-    const menuItem = menuItems.find((item) => item.name === currentPath);
-    return menuItem ? menuItem.key : '1';
-  };
+    const selectedItem = menuItems.find((item) => item.name === currentPath);
+    return selectedItem ? selectedItem.key : '1';
+  }, [location.pathname]);
 
   return (
-    <Sider theme="light" breakpoint="lg" collapsedWidth="0">
+    <Sider
+      theme="light"
+      breakpoint="lg"
+      collapsedWidth="0"
+      onBreakpoint={(broken) => {
+        console.log(broken);
+      }}
+      onCollapse={(collapsed, type) => {
+        console.log(collapsed, type);
+      }}
+    >
       <div className="logo-vertical">
         <Link to="/">
           <img width={150} src={Logo} alt="BookMart" />
@@ -48,7 +52,7 @@ const Sidebar: React.FC = () => {
       <Menu
         theme="light"
         mode="inline"
-        selectedKeys={[getSelectedKey()]}
+        defaultSelectedKeys={[getSelectedKey()]}
         items={menuItems}
       />
     </Sider>

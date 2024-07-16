@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Spin, Alert, Pagination, Result, notification, Layout } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
-import type { Book } from '../types/book';
-import BookItem from '@components/bookitem/BookItem';
+import type { Book } from '@types/book';
+import BookItem from '@/components/book/BookItem';
 import { usePagination } from '@hooks/usePagination';
 import './Favorites.scss';
 import BookDetails from '@components/book/BookDetails';

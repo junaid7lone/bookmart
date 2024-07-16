@@ -4,7 +4,6 @@ import { Layout } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 
 import Home from '@pages/Home';
-import Favorites from '@pages/Favorites';
 import Sidebar from '@components/sidebar/Sidebar';
 import CreateBook from '@pages/CreateBook';
 import AppHeader from '@components/header/Header';
@@ -19,7 +18,6 @@ const App: React.FC = () => {
           <Content>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/favorites" element={<Favorites />} />
               <Route path="/create" element={<CreateBook />} />
             </Routes>
           </Content>
