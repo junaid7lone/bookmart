@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { Drawer, Image, Button, Modal, Typography } from 'antd';
+import React, { useState, Suspense, lazy } from 'react';
+import { Drawer, Image, Button, Modal, Typography, Spin } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
-import PdfReader from '@components/PdfReader/PdfReader';
 
 import Placeholder from '@assets/placeholder.png';
 import type { Book } from '@/types/book';
 import styles from '@components/book/BookDetails/BookDetails.module.scss';
+
+const PdfReader = lazy(() => import('@/components/PdfReader/PdfReader'));
 
 const { Text } = Typography;
 
@@ -77,7 +78,9 @@ const BookDetails: React.FC<BookDetailsProps> = ({
         height={'80vh'}
         destroyOnClose
       >
-        <PdfReader />
+        <Suspense fallback={<Spin size="large" />}>
+          <PdfReader />
+        </Suspense>
       </Modal>
     </>
   );

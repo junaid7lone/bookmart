@@ -6,6 +6,7 @@ import BookForm from '@components/book/BookForm/BookForm';
 import type { Book } from '@/types/book';
 import AppHeader from '@components/common/Header/Header';
 import styles from '@pages/CreateBook/CreateBook.module.scss';
+import ErrorBoundary from '@/components/ErrorBoundray';
 
 const { Content } = Layout;
 
@@ -36,13 +37,15 @@ const CreateBook: React.FC<CreateBookProps> = ({ collapsed, setCollapsed }) => {
 
   return (
     <Content className={styles.createBookPage}>
-      <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-      <h2>Add New Book</h2>
-      <article className="">
-        <Card>
-          <BookForm onSubmit={handleFormSubmit} />
-        </Card>
-      </article>
+      <ErrorBoundary>
+        <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+        <h2>Add New Book</h2>
+        <article className="">
+          <Card>
+            <BookForm onSubmit={handleFormSubmit} />
+          </Card>
+        </article>
+      </ErrorBoundary>
     </Content>
   );
 };

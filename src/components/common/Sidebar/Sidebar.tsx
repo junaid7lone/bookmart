@@ -4,6 +4,7 @@ import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Logo from '@assets/logo-full.png';
 import styles from '@components/common/Sidebar/Sidebar.module.scss';
+import ErrorBoundary from '@/components/ErrorBoundray';
 
 const { Sider } = Layout;
 
@@ -37,39 +38,43 @@ const Sidebar: React.FC<SidebarPropsType> = ({ collapsed, setCollapsed }) => {
   }, [location.pathname]);
 
   return (
-    <Sider
-      collapsible
-      trigger={null}
-      collapsed={collapsed}
-      className={styles.sidebarWrapper}
-      theme="light"
-      breakpoint="lg"
-      collapsedWidth="0"
-      onCollapse={(collapsed, type) => {
-        setCollapsed(collapsed);
-        console.log(collapsed, type);
-      }}
-      style={{
-        overflow: 'auto',
-        height: '80vh',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-      }}
-    >
-      <div className={styles.logoVertical}>
-        <Link to="/">
-          <img width={150} src={Logo} alt="BookMart" />
-        </Link>
-      </div>
-      <Menu
-        theme="light"
-        mode="inline"
-        defaultSelectedKeys={[getSelectedKey()]}
-        items={menuItems}
-      />
-    </Sider>
+    <div>
+      <ErrorBoundary>
+        <Sider
+          collapsible
+          trigger={null}
+          collapsed={collapsed}
+          className={styles.sidebarWrapper}
+          theme="light"
+          breakpoint="lg"
+          collapsedWidth="0"
+          onCollapse={(collapsed, type) => {
+            setCollapsed(collapsed);
+            console.log(collapsed, type);
+          }}
+          style={{
+            overflow: 'auto',
+            height: '80vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        >
+          <div className={styles.logoVertical}>
+            <Link to="/">
+              <img width={150} src={Logo} alt="BookMart" />
+            </Link>
+          </div>
+          <Menu
+            theme="light"
+            mode="inline"
+            defaultSelectedKeys={[getSelectedKey()]}
+            items={menuItems}
+          />
+        </Sider>
+      </ErrorBoundary>
+    </div>
   );
 };
 

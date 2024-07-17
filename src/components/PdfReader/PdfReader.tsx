@@ -4,9 +4,13 @@ import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import './PdfReader.module.scss';
-import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { Progress } from 'antd';
 import { PDF_URL } from '@/config';
+
+// Manually define the PDFDocumentProxy type
+interface PDFDocumentProxy {
+  numPages: number;
+}
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -14,8 +18,6 @@ const options = {
   cMapUrl: '/cmaps/',
   standardFontDataUrl: '/standard_fonts/',
 };
-
-const resizeObserverOptions = {};
 
 const maxWidth = 800;
 
@@ -34,7 +36,7 @@ export default function PdfReader() {
     }
   }, []);
 
-  useResizeObserver(containerRef, resizeObserverOptions, onResize);
+  useResizeObserver(containerRef, {}, onResize);
 
   function onDocumentLoadSuccess({
     numPages: nextNumPages,
@@ -49,7 +51,9 @@ export default function PdfReader() {
     );
   }
 
-  const readingProgress = numPages ? (renderedPages.size / numPages) * 100 : 0;
+  const readingProgress = numPages
+    ? Math.ceil((renderedPages.size / numPages) * 100)
+    : 0;
 
   return (
     <div className="PDF">

@@ -7,6 +7,7 @@ import Home from '@pages/Home/Home';
 import Sidebar from '@components/common/Sidebar/Sidebar';
 import CreateBook from '@pages/CreateBook/CreateBook';
 import { notification } from 'antd';
+import NotFound from '@/pages/NotFound/NotFound';
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -38,6 +39,7 @@ const App: React.FC = () => {
                   />
                 }
               />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Content>
         </Layout>

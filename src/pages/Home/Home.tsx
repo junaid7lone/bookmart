@@ -1,17 +1,28 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  Suspense,
+  lazy,
+} from 'react';
 import { Spin, Alert, Pagination, Button, Modal, Result, Layout } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 
-import BookItem from '@components/book/BookItem/BookItem';
-import BookForm from '@components/book/BookForm/BookForm';
-import BookDetails from '@components/book/BookDetails/BookDetails';
+import BookItem from '@/components/book/BookItem/BookItem';
+import BookForm from '@/components/book/BookForm/BookForm';
 import type { Book } from '@/types/book';
 import usePagination from '@hooks/usePagination';
 import useBooks from '@hooks/useBooks';
-import AppHeader from '@components/common/Header/Header';
-import styles from '@pages/Home/Home.module.scss';
+import AppHeader from '@/components/common/Header/Header';
+import styles from './Home.module.scss';
+import ErrorBoundary from '@/components/ErrorBoundray';
 
 const { Content } = Layout;
+
+const BookDetails = lazy(
+  () => import('@/components/book/BookDetails/BookDetails')
+);
 
 type HomeProps = {
   collapsed: boolean;
@@ -21,11 +32,12 @@ type HomeProps = {
 const Home: React.FC<HomeProps> = ({ collapsed, setCollapsed }) => {
   const {
     books,
-    favoriteBookIds,
-    status,
     addBook,
     editBook,
     deleteBook,
+    favoriteBookIds,
+    status,
+    error,
     toggleFavorite,
     searchQuery,
     setSearchQuery,
@@ -103,88 +115,92 @@ const Home: React.FC<HomeProps> = ({ collapsed, setCollapsed }) => {
 
   return (
     <Content style={{ margin: '24px 16px 0' }} className={styles.homePage}>
-      <AppHeader
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filterByFavorites={filterByFavorites}
-        setFilterByFavorites={setFilterByFavorites}
-        collapsed={collapsed}
-        setCollapsed={setCollapsed}
-      />
-      <div className={styles.flexSpaceBetween}>
-        <h2>Popular Books</h2>
-        <Button
-          type="primary"
-          onClick={handleAddBook}
-          style={{ marginBottom: '16px' }}
-        >
-          Add New Book
-        </Button>
-      </div>
+      <ErrorBoundary>
+        <AppHeader
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          filterByFavorites={filterByFavorites}
+          setFilterByFavorites={setFilterByFavorites}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        />
+        <div className={styles.flexSpaceBetween}>
+          <h2>Popular Books</h2>
+          <Button
+            type="primary"
+            onClick={handleAddBook}
+            style={{ marginBottom: '16px' }}
+          >
+            Add New Book
+          </Button>
+        </div>
 
-      <div className={styles.booksContainer}>
-        {memoizedCurrentBooks.length === 0 ? (
-          <Result
-            icon={<SmileOutlined />}
-            title="No books available"
-            extra={
-              <Button type="primary" onClick={handleAddBook}>
-                Add New Book
-              </Button>
-            }
-          />
-        ) : (
-          memoizedCurrentBooks.map((book) => (
-            <BookItem
-              key={book.id}
-              book={book}
-              isFavorite={favoriteBookIds.has(book.id)}
-              toggleFavorite={() => toggleFavorite(book.id)}
-              onView={() => handleViewBook(book)}
-              onEdit={
-                book.id.toString().startsWith('local')
-                  ? () => handleEditBook(book)
-                  : undefined
-              }
-              onDelete={
-                book.id.toString().startsWith('local')
-                  ? () => deleteBook(book.id)
-                  : undefined
+        <div className={styles.booksContainer}>
+          {memoizedCurrentBooks.length === 0 ? (
+            <Result
+              icon={<SmileOutlined />}
+              title="No books available"
+              extra={
+                <Button type="primary" onClick={handleAddBook}>
+                  Add New Book
+                </Button>
               }
             />
-          ))
+          ) : (
+            memoizedCurrentBooks.map((book) => (
+              <BookItem
+                key={book.id}
+                book={book}
+                isFavorite={favoriteBookIds.has(book.id)}
+                toggleFavorite={() => toggleFavorite(book.id)}
+                onView={() => handleViewBook(book)}
+                onEdit={
+                  book.id.toString().startsWith('local')
+                    ? () => handleEditBook(book)
+                    : undefined
+                }
+                onDelete={
+                  book.id.toString().startsWith('local')
+                    ? () => deleteBook(book.id)
+                    : undefined
+                }
+              />
+            ))
+          )}
+        </div>
+
+        {memoizedCurrentBooks.length > 0 && (
+          <Pagination
+            current={currentPage}
+            pageSize={booksPerPage}
+            total={totalItems}
+            onChange={setCurrentPage}
+            className={styles.pagination}
+          />
         )}
-      </div>
 
-      {memoizedCurrentBooks.length > 0 && (
-        <Pagination
-          current={currentPage}
-          pageSize={booksPerPage}
-          total={totalItems}
-          onChange={setCurrentPage}
-          className={styles.pagination}
-        />
-      )}
+        <Modal
+          title="Add / Edit Book"
+          open={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          footer={[]}
+          centered
+          destroyOnClose
+        >
+          <BookForm
+            onSubmit={handleFormSubmit}
+            initialData={editingBook || undefined}
+          />
+        </Modal>
 
-      <Modal
-        title="Add / Edit Book"
-        open={isModalVisible}
-        onCancel={() => setIsModalVisible(false)}
-        footer={[]}
-        centered
-        destroyOnClose
-      >
-        <BookForm
-          onSubmit={handleFormSubmit}
-          initialData={editingBook || undefined}
-        />
-      </Modal>
-
-      <BookDetails
-        book={selectedBook}
-        visible={isDrawerVisible}
-        onClose={() => setIsDrawerVisible(false)}
-      />
+        <Suspense fallback={<Spin size="large" />}>
+          <BookDetails
+            book={selectedBook}
+            visible={isDrawerVisible}
+            onClose={() => setIsDrawerVisible(false)}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </Content>
   );
 };
