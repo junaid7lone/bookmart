@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from 'antd';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import styles from '@components/book/BookForm/BookForm.module.scss';
 
@@ -18,10 +17,10 @@ const DateInput: React.FC<DateInputProps> = ({
 }) => {
   return (
     <div className={styles.formItem}>
-      <Input
+      <input
         type="date"
-        className={`${styles.fromInput}  ant-input ant-input-outlined`}
         id={id}
+        className={styles.formInput}
         placeholder={placeholder}
         {...register}
       />

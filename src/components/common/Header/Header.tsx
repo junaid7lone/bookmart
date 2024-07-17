@@ -53,7 +53,9 @@ const AppHeader: React.FC<AppHeaderProps> = ({
               icon={<MenuOutlined />}
               onClick={() => setCollapsed(!collapsed)}
             />
-            <span className={styles.logoSmall}>
+            <span
+              className={`${styles.logoSmall} ${collapsed ? styles.showLogo : ''}`}
+            >
               <Link to="/">
                 <img src={LogoSmall} alt="BookMart" />
               </Link>

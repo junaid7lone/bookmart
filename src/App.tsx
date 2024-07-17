@@ -6,9 +6,15 @@ import { Content } from 'antd/es/layout/layout';
 import Home from '@pages/Home/Home';
 import Sidebar from '@components/common/Sidebar/Sidebar';
 import CreateBook from '@pages/CreateBook/CreateBook';
+import { notification } from 'antd';
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  notification.config({
+    placement: 'bottomRight',
+    bottom: 50,
+    duration: 2,
+  });
 
   return (
     <>

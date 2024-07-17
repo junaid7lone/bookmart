@@ -21,14 +21,12 @@ const useFavorites = () => {
         notification.success({
           message: 'Success',
           description: 'Book removed from favorites',
-          placement: 'bottomRight',
         });
       } else {
         updatedFavoriteBookIds.add(bookId);
         notification.success({
           message: 'Success',
           description: 'Book added to favorites',
-          placement: 'bottomRight',
         });
       }
       localStorage.setItem(

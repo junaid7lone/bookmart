@@ -22,13 +22,14 @@ const CreateBook: React.FC<CreateBookProps> = ({ collapsed, setCollapsed }) => {
   });
 
   const handleFormSubmit = (book: Book) => {
+    console.log('book--');
+    console.log(book);
     const updatedBooks = [...localBooks, book];
     setLocalBooks(updatedBooks);
     localStorage.setItem('localBooks', JSON.stringify(updatedBooks));
     notification.success({
       message: `Success`,
       description: 'Book added to collection.',
-      placement: 'bottomRight',
     });
     navigate('/');
   };

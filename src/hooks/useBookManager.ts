@@ -31,7 +31,6 @@ const useBookManager = () => {
       notification.error({
         message: 'Error',
         description: error,
-        placement: 'bottomRight',
       });
     }
   }, [status, error]);
@@ -48,14 +47,12 @@ const useBookManager = () => {
         notification.success({
           message: 'Success',
           description: 'Book added successfully',
-          placement: 'bottomRight',
         });
       } catch (err) {
         console.error('Failed to add book', err);
         notification.error({
           message: 'Error',
           description: 'Failed to add book',
-          placement: 'bottomRight',
         });
       }
     },

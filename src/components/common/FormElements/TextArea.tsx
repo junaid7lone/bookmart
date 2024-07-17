@@ -1,18 +1,15 @@
 import React from 'react';
-import { Input } from 'antd';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import styles from '@components/book/BookForm/BookForm.module.scss';
 
-const { TextArea } = Input;
-
-type TextAreaProps = {
+type CustomTextAreaProps = {
   id: string;
   placeholder: string;
   error?: FieldError;
   register: UseFormRegisterReturn;
 };
 
-const CustomTextArea: React.FC<TextAreaProps> = ({
+const CustomTextArea: React.FC<CustomTextAreaProps> = ({
   id,
   placeholder,
   error,
@@ -20,9 +17,9 @@ const CustomTextArea: React.FC<TextAreaProps> = ({
 }) => {
   return (
     <div className={styles.formItem}>
-      <TextArea
-        className={`${styles.fromInput}  ant-input ant-input-outlined`}
+      <textarea
         id={id}
+        className={styles.formInput}
         placeholder={placeholder}
         {...register}
       />

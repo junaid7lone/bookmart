@@ -4,7 +4,7 @@
   position: relative;
   padding: 10px;
   box-sizing: border-box;
-
+ 
   :global(.pointer) {
     cursor: pointer;
   }
@@ -21,7 +21,6 @@
     &:hover {
       transform: translate(0, -5px);
     }
-
   }
   .bookCoverWrapper {
     text-align: center;

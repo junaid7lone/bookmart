@@ -1,5 +1,4 @@
 import React from 'react';
-import { Input } from 'antd';
 import type { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import styles from '@components/book/BookForm/BookForm.module.scss';
 
@@ -18,9 +17,9 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className={styles.formItem}>
-      <Input
-        className={`${styles.fromInput}  ant-input ant-input-outlined`}
+      <input
         id={id}
+        className={styles.formInput}
         placeholder={placeholder}
         {...register}
       />

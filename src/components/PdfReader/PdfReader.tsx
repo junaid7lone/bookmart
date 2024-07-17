@@ -4,8 +4,9 @@ import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import './PdfReader.module.scss';
-import { PDFDocumentProxy } from 'pdfjs-dist';
+import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { Progress } from 'antd';
+import { PDF_URL } from '@/config';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -19,8 +20,7 @@ const resizeObserverOptions = {};
 const maxWidth = 800;
 
 export default function PdfReader() {
-  const file =
-    'https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf';
+  const file = PDF_URL;
 
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);

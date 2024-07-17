@@ -1,3 +1,4 @@
+import { API_URL } from '@/config';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { BookState } from '@store/types';
 import axios from 'axios';
@@ -10,9 +11,7 @@ const initialState: BookState = {
 
 // Thunk to fetch books
 export const fetchBooks = createAsyncThunk('books/fetchBooks', async () => {
-  const response = await axios.get(
-    'https://my-json-server.typicode.com/cutamar/mock/books'
-  );
+  const response = await axios.get(API_URL);
   return response.data;
 });
 

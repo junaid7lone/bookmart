@@ -25,10 +25,18 @@
     align-items: center;
     gap: 20px;
 
-    .logoSmall {
-      display: none;
+  }
+  .logoSmall {
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    display: none;
+    &.showLogo {
+      display: flex;
     }
   }
+
+
 }
 
 @media (max-width: 999px) {
