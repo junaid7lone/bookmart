@@ -2,11 +2,12 @@ import React, { useEffect, useCallback } from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { Button } from 'antd';
-import TextInput from '@/components/common/FormElements/TextInput';
-import DateInput from '@/components/common/FormElements/DateInput';
-import CustomTextArea from '@/components/common/FormElements/TextArea';
-import type { FormInputs } from '@types/formInput';
-import styles from './BookForm.module.scss';
+
+import TextInput from '@components/common/FormElements/TextInput';
+import DateInput from '@components/common/FormElements/DateInput';
+import CustomTextArea from '@components/common/FormElements/TextArea';
+import type { FormInputs } from '@/types/formInput';
+import styles from '@components/book/BookForm/BookForm.module.scss';
 
 type BookFormProps = {
   onSubmit: (book: FormInputs) => void;

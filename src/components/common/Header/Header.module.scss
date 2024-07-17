@@ -5,6 +5,8 @@
   background-color: #fff;
   padding: 0 24px;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border-radius: 8px;
 
   .appHeaderContent {
     display: flex;
@@ -13,7 +15,7 @@
     width: 100%;
   }
 
-  .profile-icon {
+  .profileIcon {
     margin-left: auto;
     color: #fff;
   }
@@ -21,14 +23,23 @@
   .navLeftSide {
     display: flex;
     align-items: center;
+    gap: 20px;
 
     .logoSmall {
       display: none;
     }
   }
-  
-  @media (max-width: 555px) {
+}
+
+@media (max-width: 999px) {
+  .appHeader {
+    z-index: 1;
+    border-radius: 0;
     padding: 0 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 
     .navLeftSide {
       gap: 16px;

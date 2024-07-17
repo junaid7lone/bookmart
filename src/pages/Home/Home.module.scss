@@ -1,6 +1,10 @@
 .homePage {
   padding: 32px;
-  margin: 24px 16px 0;
+  padding-top: 0px;
+
+  h2 {
+    margin-bottom: 16px;
+  }
 
   .booksContainer {
     display: flex;
@@ -14,16 +18,23 @@
     margin-top: 32px;
     margin-bottom: 100px;
   }
+}
 
-  @media (max-width: 600px) {
+@media (max-width: 999px) {
+  .homePage {
     padding: 0;
+    padding-top: 50px;
   }
 }
 
-.pageHeading {
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexSpaceBetween {
   display: flex;
   justify-content: space-between;
-  h2 {
-    margin-bottom: 16px;
-  }
+  align-items: center;
 }

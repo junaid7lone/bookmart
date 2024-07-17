@@ -1,5 +1,4 @@
 import React from 'react';
-import type { Book } from '@types/book';
 import { Card, Button, Image, Tooltip } from 'antd';
 import {
   HeartOutlined,
@@ -8,8 +7,10 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from '@ant-design/icons';
-import styles from './BookItem.module.scss';
+
+import type { Book } from '@/types/book';
 import Placeholder from '@assets/placeholder.png';
+import styles from '@components/book/BookItem/BookItem.module.scss';
 
 const { Meta } = Card;
 
@@ -33,27 +34,43 @@ const BookItem: React.FC<BookItemProps> = ({
   const actions = [
     <Tooltip title="Add to Favorites" key="fav-btn">
       <Button
+        type="text"
         shape="circle"
         icon={isFavorite ? <HeartFilled /> : <HeartOutlined />}
         onClick={toggleFavorite}
       />
     </Tooltip>,
     <Tooltip title="View Details" key="view-btn">
-      <Button shape="circle" icon={<EyeOutlined />} onClick={onView} />,
+      <Button
+        type="text"
+        shape="circle"
+        icon={<EyeOutlined />}
+        onClick={onView}
+      />
     </Tooltip>,
   ];
 
   if (onEdit) {
     actions.push(
       <Tooltip title="Edit Book" key="edit-btn">
-        <Button shape="circle" icon={<EditOutlined />} onClick={onEdit} />
+        <Button
+          type="text"
+          shape="circle"
+          icon={<EditOutlined />}
+          onClick={onEdit}
+        />
       </Tooltip>
     );
   }
   if (onDelete) {
     actions.push(
       <Tooltip title="Delete Book" key="delete-btn">
-        <Button shape="circle" icon={<DeleteOutlined />} onClick={onDelete} />
+        <Button
+          type="text"
+          shape="circle"
+          icon={<DeleteOutlined />}
+          onClick={onDelete}
+        />
       </Tooltip>
     );
   }
@@ -63,7 +80,7 @@ const BookItem: React.FC<BookItemProps> = ({
       <Card
         className={styles.bookItem}
         cover={
-          <div className={styles.bookCoverWrapper}>
+          <div className={`${styles.bookCoverWrapper} pointer`}>
             <Image
               className={styles.bookImage}
               src={book.cover}
@@ -78,21 +95,16 @@ const BookItem: React.FC<BookItemProps> = ({
       >
         <Meta
           title={
-            <span className={styles.bookTitle} onClick={onView}>
+            <span className={`${styles.bookTitle} pointer`} onClick={onView}>
               {book.title}
             </span>
           }
           description={
             <div
-              className={`${styles.bookAuthor} ${styles.cursorPointer} ${styles.flex} ${styles.justifyBetween}`}
+              className={`${styles.bookAuthor} ${styles.cursorPointer} ${styles.flex} ${styles.justifyBetween} pointer`}
               onClick={onView}
             >
               <div className={styles.bookAuthor}>{book.author}</div>
-              {book?.publicationDate && (
-                <div className={styles.date}>
-                  {new Date(book.publicationDate).toDateString()}
-                </div>
-              )}
             </div>
           }
         />

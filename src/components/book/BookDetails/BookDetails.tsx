@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Drawer, Image, Button, Modal } from 'antd';
+import { Drawer, Image, Button, Modal, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import PdfReader from '@components/PdfReader/PdfReader';
 
 import Placeholder from '@assets/placeholder.png';
-import styles from './BookDetails.module.scss';
-import type { Book } from '@types/book';
-import PdfReader from '@components/PdfReader/PdfReader';
+import type { Book } from '@/types/book';
+import styles from '@components/book/BookDetails/BookDetails.module.scss';
+
+const { Text } = Typography;
 
 type BookDetailsProps = {
   book: Book | null;
@@ -21,40 +24,47 @@ const BookDetails: React.FC<BookDetailsProps> = ({
 
   if (!book) return null;
 
-  const handleReadClick = () => {
-    setIsModelOpen(true);
-  };
-
   return (
     <>
       <Drawer
-        title={book.title}
+        title={
+          <Button
+            type="primary"
+            icon={<EyeOutlined />}
+            onClick={() => setIsModelOpen(true)}
+          >
+            Read Book
+          </Button>
+        }
         placement="right"
         width={400}
         onClose={onClose}
         open={visible}
       >
         <div className={styles.BookDetails}>
-          <Image
-            src={book.cover}
-            alt={book.title}
-            fallback={Placeholder}
-            className={styles.bookDetailsCover}
-          />
-          <h3>{book.title}</h3>
+          <div className={styles.bookDetailsCover}>
+            <Image src={book.cover} alt={book.title} fallback={Placeholder} />
+          </div>
+          <h3 className={styles.h3}>{book.title}</h3>
           <p>
-            <strong>Author:</strong> {book.author}
+            <Text type="secondary">
+              <strong>Author: </strong>
+            </Text>{' '}
+            {book.author}
           </p>
           <p>
-            <strong>Publication Date:</strong>
+            <Text type="secondary">
+              <strong>Publication Date: </strong>
+            </Text>
+
             {new Date(book.publicationDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>Description:</strong> {book.description}
+            <Text type="secondary">
+              <strong>Description:</strong>
+            </Text>
+            {book.description}
           </p>
-          <Button type="primary" onClick={handleReadClick}>
-            Read
-          </Button>
         </div>
       </Drawer>
       <Modal

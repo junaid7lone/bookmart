@@ -2,13 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Layout, notification } from 'antd';
 
-import BookForm from '@/components/book/BookForm/BookForm';
-import type { Book } from '@types/book';
-import './CreateBook.module.scss';
+import BookForm from '@components/book/BookForm/BookForm';
+import type { Book } from '@/types/book';
+import AppHeader from '@components/common/Header/Header';
+import styles from '@pages/CreateBook/CreateBook.module.scss';
 
 const { Content } = Layout;
 
-const CreateBook: React.FC = () => {
+type CreateBookProps = {
+  setCollapsed: (collapsed: boolean) => void;
+  collapsed: boolean;
+};
+
+const CreateBook: React.FC<CreateBookProps> = ({ collapsed, setCollapsed }) => {
   const navigate = useNavigate();
   const [localBooks, setLocalBooks] = useState<Book[]>(() => {
     const savedBooks = localStorage.getItem('localBooks');
@@ -28,7 +34,8 @@ const CreateBook: React.FC = () => {
   };
 
   return (
-    <Content style={{ margin: '24px 16px 0' }} className="create-book-page">
+    <Content className={styles.createBookPage}>
+      <AppHeader collapsed={collapsed} setCollapsed={setCollapsed} />
       <h2>Add New Book</h2>
       <article className="">
         <Card>

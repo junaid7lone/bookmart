@@ -3,8 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import Logo from '@assets/logo-full.png';
-
-import './Sidebar.scss';
+import styles from '@components/common/Sidebar/Sidebar.module.scss';
 
 const { Sider } = Layout;
 
@@ -23,7 +22,12 @@ const menuItems = [
   },
 ];
 
-const Sidebar: React.FC = () => {
+type SidebarPropsType = {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+};
+
+const Sidebar: React.FC<SidebarPropsType> = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
 
   const getSelectedKey = useCallback(() => {
@@ -33,8 +37,28 @@ const Sidebar: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <Sider theme="light" breakpoint="lg" collapsedWidth="0">
-      <div className="logo-vertical">
+    <Sider
+      collapsible
+      trigger={null}
+      collapsed={collapsed}
+      className={styles.sidebarWrapper}
+      theme="light"
+      breakpoint="lg"
+      collapsedWidth="0"
+      onCollapse={(collapsed, type) => {
+        setCollapsed(collapsed);
+        console.log(collapsed, type);
+      }}
+      style={{
+        overflow: 'auto',
+        height: '80vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
+    >
+      <div className={styles.logoVertical}>
         <Link to="/">
           <img width={150} src={Logo} alt="BookMart" />
         </Link>

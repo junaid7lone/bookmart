@@ -1,19 +1,24 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Spin, Alert, Pagination, Button, Modal, Result, Layout } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 
-import BookItem from '@/components/book/BookItem/BookItem';
-import BookForm from '@/components/book/BookForm/BookForm';
-import BookDetails from '@/components/book/BookDetails/BookDetails';
-import type { Book } from '@types/book';
+import BookItem from '@components/book/BookItem/BookItem';
+import BookForm from '@components/book/BookForm/BookForm';
+import BookDetails from '@components/book/BookDetails/BookDetails';
+import type { Book } from '@/types/book';
 import usePagination from '@hooks/usePagination';
 import useBooks from '@hooks/useBooks';
-import styles from './Home.module.scss';
-import { DEFAULT_PAGINATION_SIZE } from '@config';
+import AppHeader from '@components/common/Header/Header';
+import styles from '@pages/Home/Home.module.scss';
 
 const { Content } = Layout;
 
-const Home: React.FC = () => {
+type HomeProps = {
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
+};
+
+const Home: React.FC<HomeProps> = ({ collapsed, setCollapsed }) => {
   const {
     books,
     favoriteBookIds,
@@ -22,18 +27,25 @@ const Home: React.FC = () => {
     editBook,
     deleteBook,
     toggleFavorite,
+    searchQuery,
+    setSearchQuery,
+    filterByFavorites,
+    setFilterByFavorites,
   } = useBooks();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+
+  const booksPerPage = 5;
 
   const {
     currentPage,
     paginatedItems: currentBooks,
     totalItems,
     setCurrentPage,
-  } = usePagination(books, DEFAULT_PAGINATION_SIZE);
+  } = usePagination(books, booksPerPage);
 
   const handleAddBook = useCallback(() => {
     setEditingBook(null);
@@ -64,10 +76,14 @@ const Home: React.FC = () => {
 
   const memoizedCurrentBooks = useMemo(() => currentBooks, [currentBooks]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterByFavorites, setCurrentPage]);
+
   if (status === 'loading') {
     return (
-      <Content className={styles.homePage}>
-        <div className="flex items-center justify-center">
+      <Content style={{ margin: '24px 16px 0' }} className={styles.homePage}>
+        <div className={styles.flexCenter}>
           <Spin size="large" />
         </div>
       </Content>
@@ -76,20 +92,26 @@ const Home: React.FC = () => {
 
   if (status === 'failed') {
     return (
-      <Content className={styles.homePage}>
-        <Alert
-          message="Error"
-          description="Failed to load books"
-          type="error"
-          showIcon
-        />
-      </Content>
+      <Alert
+        message="Error"
+        description="Failed to load books"
+        type="error"
+        showIcon
+      />
     );
   }
 
   return (
-    <Content className={styles.homePage}>
-      <div className={styles.pageHeading}>
+    <Content style={{ margin: '24px 16px 0' }} className={styles.homePage}>
+      <AppHeader
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        filterByFavorites={filterByFavorites}
+        setFilterByFavorites={setFilterByFavorites}
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+      />
+      <div className={styles.flexSpaceBetween}>
         <h2>Popular Books</h2>
         <Button
           type="primary"
@@ -134,10 +156,10 @@ const Home: React.FC = () => {
         )}
       </div>
 
-      {memoizedCurrentBooks.length && (
+      {memoizedCurrentBooks.length > 0 && (
         <Pagination
           current={currentPage}
-          pageSize={DEFAULT_PAGINATION_SIZE}
+          pageSize={booksPerPage}
           total={totalItems}
           onChange={setCurrentPage}
           className={styles.pagination}
@@ -146,10 +168,11 @@ const Home: React.FC = () => {
 
       <Modal
         title="Add / Edit Book"
-        style={{ top: 20 }}
         open={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={[]}
+        centered
+        destroyOnClose
       >
         <BookForm
           onSubmit={handleFormSubmit}
