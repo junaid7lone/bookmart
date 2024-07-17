@@ -48,9 +48,8 @@ const Sidebar: React.FC<SidebarPropsType> = ({ collapsed, setCollapsed }) => {
           theme="light"
           breakpoint="lg"
           collapsedWidth="0"
-          onCollapse={(collapsed, type) => {
+          onCollapse={(collapsed) => {
             setCollapsed(collapsed);
-            console.log(collapsed, type);
           }}
           style={{
             overflow: 'auto',
