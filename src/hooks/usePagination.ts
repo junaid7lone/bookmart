@@ -1,34 +1,24 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
-interface PaginationResult<T> {
-  currentPage: number;
-  itemsPerPage: number;
-  paginatedItems: T[];
-  totalItems: number;
-  totalPages: number;
-  setCurrentPage: (page: number) => void;
-}
-
-export const usePagination = <T>(
-  items: T[],
-  itemsPerPage: number
-): PaginationResult<T> => {
+const usePagination = <T>(items: T[], itemsPerPage: number) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = items.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const paginatedItems = items.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return items.slice(start, end);
+  }, [currentPage, items, itemsPerPage]);
 
   return {
     currentPage,
-    itemsPerPage,
-    paginatedItems,
-    totalItems,
     totalPages,
+    paginatedItems,
     setCurrentPage,
+    totalItems,
   };
 };
+
+export default usePagination;

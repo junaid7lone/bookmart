@@ -23,6 +23,8 @@
       "@store/*": ["./src/store/*"],
       "@assets/*": ["./src/assets/*"],
       "@config": ["./src/config"],
+      "@types": ["./src/types"],
+      "@styles": ["./src/styles"],
     }
   },
   "include": ["src"]
