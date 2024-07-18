@@ -1,6 +1,7 @@
 # 📚 BookMart
 
 BookMart is a React application for managing books. It allows users to view books fetched from an API, add new books, edit and delete existing books locally, and manage favorite books. The application also supports pagination to display books in a paginated manner.
+![image](https://github.com/user-attachments/assets/5bba21b4-aa9d-4ea4-ba39-22e0ea598b30)
 
 # [Demo](https://bookmart-two.vercel.app/)
 
@@ -37,11 +38,11 @@ BookMart is a React application for managing books. It allows users to view book
 
 3. Install the dependencies:
 
-`npm install`
+`pnpm install`
 
 4. Start the development server:
 
-`npm run dev`
+`pnpm run dev`
 
 ## 🚀 Usage
 
